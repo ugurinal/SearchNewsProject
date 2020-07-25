@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.sourceComboBox = new MaterialSkin.Controls.MaterialComboBox();
+            this.materialLabel8 = new MaterialSkin.Controls.MaterialLabel();
             this.xuiButton1 = new XanderUI.XUIButton();
             this.sortByComboBox = new MaterialSkin.Controls.MaterialComboBox();
             this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
@@ -44,8 +46,6 @@
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.keywordTextBox = new MaterialSkin.Controls.MaterialTextBox();
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
-            this.materialLabel8 = new MaterialSkin.Controls.MaterialLabel();
-            this.sourceComboBox = new MaterialSkin.Controls.MaterialComboBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox1.SuspendLayout();
@@ -78,6 +78,42 @@
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Search";
+            // 
+            // sourceComboBox
+            // 
+            this.sourceComboBox.AutoResize = false;
+            this.sourceComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.sourceComboBox.Depth = 0;
+            this.sourceComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.sourceComboBox.DropDownHeight = 118;
+            this.sourceComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.sourceComboBox.DropDownWidth = 121;
+            this.sourceComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.sourceComboBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.sourceComboBox.FormattingEnabled = true;
+            this.sourceComboBox.IntegralHeight = false;
+            this.sourceComboBox.ItemHeight = 29;
+            this.sourceComboBox.Location = new System.Drawing.Point(239, 53);
+            this.sourceComboBox.MaxDropDownItems = 4;
+            this.sourceComboBox.MouseState = MaterialSkin.MouseState.OUT;
+            this.sourceComboBox.Name = "sourceComboBox";
+            this.sourceComboBox.Size = new System.Drawing.Size(346, 35);
+            this.sourceComboBox.TabIndex = 15;
+            this.sourceComboBox.UseTallSize = false;
+            this.sourceComboBox.SelectedIndexChanged += new System.EventHandler(this.sourceComboBox_SelectedIndexChanged);
+            // 
+            // materialLabel8
+            // 
+            this.materialLabel8.AutoSize = true;
+            this.materialLabel8.Depth = 0;
+            this.materialLabel8.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel8.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
+            this.materialLabel8.Location = new System.Drawing.Point(9, 59);
+            this.materialLabel8.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel8.Name = "materialLabel8";
+            this.materialLabel8.Size = new System.Drawing.Size(82, 29);
+            this.materialLabel8.TabIndex = 14;
+            this.materialLabel8.Text = "Source:";
             // 
             // xuiButton1
             // 
@@ -153,7 +189,7 @@
             // 
             this.searchSizeTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.searchSizeTextBox.Depth = 0;
-            this.searchSizeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.searchSizeTextBox.Font = new System.Drawing.Font("Roboto", 12F);
             this.searchSizeTextBox.Location = new System.Drawing.Point(239, 420);
             this.searchSizeTextBox.MaxLength = 50;
             this.searchSizeTextBox.MouseState = MaterialSkin.MouseState.OUT;
@@ -264,7 +300,7 @@
             // 
             this.keywordTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.keywordTextBox.Depth = 0;
-            this.keywordTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.keywordTextBox.Font = new System.Drawing.Font("Roboto", 12F);
             this.keywordTextBox.Location = new System.Drawing.Point(239, 120);
             this.keywordTextBox.MaxLength = 50;
             this.keywordTextBox.MouseState = MaterialSkin.MouseState.OUT;
@@ -288,41 +324,6 @@
             this.materialLabel1.TabIndex = 0;
             this.materialLabel1.Text = "Keywords:";
             // 
-            // materialLabel8
-            // 
-            this.materialLabel8.AutoSize = true;
-            this.materialLabel8.Depth = 0;
-            this.materialLabel8.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel8.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
-            this.materialLabel8.Location = new System.Drawing.Point(9, 59);
-            this.materialLabel8.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel8.Name = "materialLabel8";
-            this.materialLabel8.Size = new System.Drawing.Size(82, 29);
-            this.materialLabel8.TabIndex = 14;
-            this.materialLabel8.Text = "Source:";
-            // 
-            // sourceComboBox
-            // 
-            this.sourceComboBox.AutoResize = false;
-            this.sourceComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.sourceComboBox.Depth = 0;
-            this.sourceComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.sourceComboBox.DropDownHeight = 118;
-            this.sourceComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.sourceComboBox.DropDownWidth = 121;
-            this.sourceComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.sourceComboBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.sourceComboBox.FormattingEnabled = true;
-            this.sourceComboBox.IntegralHeight = false;
-            this.sourceComboBox.ItemHeight = 29;
-            this.sourceComboBox.Location = new System.Drawing.Point(239, 53);
-            this.sourceComboBox.MaxDropDownItems = 4;
-            this.sourceComboBox.MouseState = MaterialSkin.MouseState.OUT;
-            this.sourceComboBox.Name = "sourceComboBox";
-            this.sourceComboBox.Size = new System.Drawing.Size(346, 35);
-            this.sourceComboBox.TabIndex = 15;
-            this.sourceComboBox.UseTallSize = false;
-            // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.AutoScroll = true;
@@ -335,6 +336,7 @@
             // backgroundWorker1
             // 
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
             // Form1
             // 

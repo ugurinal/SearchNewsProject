@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace SearchNewsProject
 {
@@ -26,7 +18,7 @@ namespace SearchNewsProject
 
         public void setLink(string link)
         {
-            this.link = link;   
+            this.link = link;
         }
 
         public void setContent(string content)

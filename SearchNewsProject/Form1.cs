@@ -1,21 +1,23 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using MaterialSkin;
+﻿using MaterialSkin;
 using MaterialSkin.Controls;
 using NewsAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
 
 namespace SearchNewsProject
 {
     public partial class Form1 : MaterialForm
     {
+        private struct SearchResult
+        {
+            public String jsonResult;
+            public Dictionary<String, String> relevantHeaders;
+        }
+
         public Form1()
         {
             InitializeComponent();
@@ -27,14 +29,12 @@ namespace SearchNewsProject
 
         public void setSkin()
         {
-
             MaterialSkinManager materialSkinManager = MaterialSkinManager.Instance;
             materialSkinManager.AddFormToManage(this);
             materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
 
             materialSkinManager.ColorScheme = new ColorScheme(Primary.Teal800, Primary.Teal800,
                 Primary.Blue500, Accent.LightBlue200, TextShade.WHITE);
-
         }
 
         public void setDateTimePickers()
@@ -87,20 +87,16 @@ namespace SearchNewsProject
 
         private void xuiButton1_Click(object sender, EventArgs e)
         {
-
             flowLayoutPanel1.Controls.Clear();
 
             backgroundWorker1.RunWorkerAsync();
-
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-
-            if(sourceComboBox.SelectedIndex == 0)
+            if (sourceComboBox.SelectedIndex == 0)
             {
-                MessageBox.Show("Bing API is still in progress... \nUse News API instead.");
-                
+                searchByBingAPI();
             }
             else
             {
@@ -131,12 +127,34 @@ namespace SearchNewsProject
                     sw.WriteLine("Başlık :  " + n.Title + " - Yazar : " + n.Author + " - Haber : " + n.Description + " - Link : " + n.Url + " - Tarih : " + n.PublishedAt + " URL : " + n.UrlToImage + "    status : " + news.getStatus());
                     populateList(listItems, n.Title, n.Description, n.Author, n.UrlToImage, n.Url, n.PublishedAt.Value.ToString("dd/MM/yyyy HH:mm"), i);
                     i++;
-
                 }
             }
             else
             {
                 MessageBox.Show("Status : " + news.getStatus());
+            }
+        }
+
+        private void searchByBingAPI()
+        {
+            BingNews bingNews = new BingNews();
+
+            dynamic jsonObj = bingNews.getBingNews();
+
+            int size = Convert.ToInt32(searchSizeTextBox.Text);
+
+            ListItem[] listItems = new ListItem[size];
+
+            for (int i = 0; i < size; i++)
+            {
+                string title = jsonObj.value[i].name;
+                string url = jsonObj.value[i].url;
+                string imgLink = jsonObj.value[i].image.thumbnail.contentUrl;
+                string content = jsonObj.value[i].description;
+                string author = jsonObj.value[i].provider[0].name;
+                string publishedAt = jsonObj.value[0].datePublished.ToString("dd/MM/yyyy HH:mm");
+
+                populateList(listItems, title, content, author, imgLink, url, publishedAt, i);
             }
         }
 
@@ -167,10 +185,26 @@ namespace SearchNewsProject
                 {
                     flowLayoutPanel1.Controls.Add(list[current]);
                 }
-
             }
-
         }
 
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            MessageBox.Show("Background worker complete.");
+        }
+
+        private void sourceComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (sourceComboBox.SelectedIndex == 0)
+            {
+                fromDateTimePicker.Enabled = false;
+                toDateTimePicker.Enabled = false;
+            }
+            else
+            {
+                fromDateTimePicker.Enabled = true;
+                toDateTimePicker.Enabled = true;
+            }
+        }
     }
 }
