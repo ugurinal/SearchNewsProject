@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Net.NetworkInformation;
 using System.Windows.Forms;
 
 namespace SearchNewsProject
@@ -74,7 +75,6 @@ namespace SearchNewsProject
             languageComboBox.SelectedIndex = 0;
 
             sortByComboBox.SelectedIndex = 0;
-            
         }
 
         private void xuiButton1_Click(object sender, EventArgs e)
@@ -220,8 +220,21 @@ namespace SearchNewsProject
                 sortByComboBox.Items.Add("Popularity");
                 sortByComboBox.Items.Add("Relevancy");
                 sortByComboBox.SelectedIndex = 0;
-
             }
         }
+
+        private bool checkInternetConnection()
+        {
+            bool result;
+            Ping pinger = new Ping();
+
+            PingReply pingReply = pinger.Send("8.8.8.8");
+            result = pingReply.Status == IPStatus.Success;
+
+
+            return result;
+            
+        }
+
     }
 }
