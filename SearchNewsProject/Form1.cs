@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
-using System.Net.NetworkInformation;
 using System.Windows.Forms;
 
 namespace SearchNewsProject
@@ -222,19 +221,5 @@ namespace SearchNewsProject
                 sortByComboBox.SelectedIndex = 0;
             }
         }
-
-        private bool checkInternetConnection()
-        {
-            bool result;
-            Ping pinger = new Ping();
-
-            PingReply pingReply = pinger.Send("8.8.8.8");
-            result = pingReply.Status == IPStatus.Success;
-
-
-            return result;
-            
-        }
-
     }
 }
