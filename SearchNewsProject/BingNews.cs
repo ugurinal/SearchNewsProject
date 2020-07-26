@@ -13,15 +13,13 @@ namespace SearchNewsProject
             public Dictionary<String, String> relevantHeaders;
         }
 
+        private const string accessKey = "bed27930d54c41098a15e25f235cb2a8";
+        private const string uriBase = "https://api.cognitive.microsoft.com/bing/v7.0/news/search";
+        private string searchQuery = null;
+
         public dynamic getBingNews()
         {
-            const string accessKey = "bed27930d54c41098a15e25f235cb2a8";
-            const string uriBase = "https://api.cognitive.microsoft.com/bing/v7.0/news/search";
-            const string searchTerm = "Microsoft";
-
-            var uriQuery = uriBase + "?q=" + Uri.EscapeDataString(searchTerm) + "&mkt=en-US" + "&count=80";
-
-            WebRequest request = WebRequest.Create(uriQuery);
+            WebRequest request = WebRequest.Create(searchQuery);
             request.Headers["Ocp-Apim-Subscription-Key"] = accessKey;
             HttpWebResponse response = (HttpWebResponse)request.GetResponseAsync().Result;
             string json = new StreamReader(response.GetResponseStream()).ReadToEnd();
@@ -47,6 +45,44 @@ namespace SearchNewsProject
             else
             {
                 return null;
+            }
+        }
+
+        public void setSearchQuery(string keywords, int language, int searchSize, int sortBy)
+        {
+            string lang;
+            
+
+            switch (language)
+            {
+                case 0:
+                    lang = "tr-TR";
+                    break;
+
+                case 1:
+                    lang = "en-US";
+                    break;
+
+                case 2:
+                    lang = "de-DE";
+                    break;
+
+                case 3:
+                    lang = "ru-RU";
+                    break;
+
+                default:
+                    lang = "tr-TR";
+                    break;
+            }
+
+            if (sortBy == 0)
+            {
+                searchQuery = uriBase + "?q=" + keywords + "&sortBy=Date" + "&mkt=" + lang + "&count=" + searchSize;
+            }
+            else
+            {
+                searchQuery = uriBase + "?q=" + keywords + "&mkt=" + lang + "&count=" + searchSize;
             }
         }
     }

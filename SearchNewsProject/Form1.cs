@@ -12,12 +12,6 @@ namespace SearchNewsProject
 {
     public partial class Form1 : MaterialForm
     {
-        private struct SearchResult
-        {
-            public String jsonResult;
-            public Dictionary<String, String> relevantHeaders;
-        }
-
         public Form1()
         {
             InitializeComponent();
@@ -79,10 +73,8 @@ namespace SearchNewsProject
             languageComboBox.Items.Add("Russian");
             languageComboBox.SelectedIndex = 0;
 
-            sortByComboBox.Items.Add("Newest");
-            sortByComboBox.Items.Add("Popularity");
-            sortByComboBox.Items.Add("Relevancy");
             sortByComboBox.SelectedIndex = 0;
+            
         }
 
         private void xuiButton1_Click(object sender, EventArgs e)
@@ -108,8 +100,14 @@ namespace SearchNewsProject
         {
             News news = new News();
 
-            news.setEverythingRequest(keywordTextBox.Text, languageComboBox.SelectedIndex, fromDateTimePicker.Value
-                , toDateTimePicker.Value, Convert.ToInt32(searchSizeTextBox.Text), sortByComboBox.SelectedIndex);
+            string keyWords = keywordTextBox.Text;
+            int language = languageComboBox.SelectedIndex;
+            DateTime from = fromDateTimePicker.Value;
+            DateTime to = toDateTimePicker.Value;
+            int searchSize = Convert.ToInt32(searchSizeTextBox.Text);
+            int sortBy = sortByComboBox.SelectedIndex;
+
+            news.setEverythingRequest(keyWords, language, from, to, searchSize, sortBy);
 
             news.searchNews();
 
@@ -138,6 +136,13 @@ namespace SearchNewsProject
         private void searchByBingAPI()
         {
             BingNews bingNews = new BingNews();
+
+            string keyWords = keywordTextBox.Text;
+            int language = languageComboBox.SelectedIndex;
+            int searchSize = Convert.ToInt32(searchSizeTextBox.Text);
+            int sortBy = sortByComboBox.SelectedIndex;
+
+            bingNews.setSearchQuery(keyWords, language, searchSize, sortBy);
 
             dynamic jsonObj = bingNews.getBingNews();
 
@@ -199,11 +204,23 @@ namespace SearchNewsProject
             {
                 fromDateTimePicker.Enabled = false;
                 toDateTimePicker.Enabled = false;
+
+                sortByComboBox.Items.Clear();
+                sortByComboBox.Items.Add("Newest");
+                sortByComboBox.Items.Add("None");
+                sortByComboBox.SelectedIndex = 0;
             }
             else
             {
                 fromDateTimePicker.Enabled = true;
                 toDateTimePicker.Enabled = true;
+
+                sortByComboBox.Items.Clear();
+                sortByComboBox.Items.Add("Newest");
+                sortByComboBox.Items.Add("Popularity");
+                sortByComboBox.Items.Add("Relevancy");
+                sortByComboBox.SelectedIndex = 0;
+
             }
         }
     }
