@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 
 namespace SearchNewsProject
 {
@@ -38,7 +39,9 @@ namespace SearchNewsProject
 
         public void setDate(string date)
         {
+            labelDate.BackColor = Color.Transparent;
             labelDate.Text = date;
+            
         }
 
         private void labelTitle_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

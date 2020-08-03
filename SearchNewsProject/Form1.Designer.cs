@@ -48,6 +48,8 @@
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.textBoxContextMenuStrip1 = new MaterialSkin.Controls.TextBoxContextMenuStrip();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -338,6 +340,21 @@
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.testToolStripMenuItem.Text = "test";
+            // 
+            // textBoxContextMenuStrip1
+            // 
+            this.textBoxContextMenuStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
+            this.textBoxContextMenuStrip1.Depth = 0;
+            this.textBoxContextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.textBoxContextMenuStrip1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.textBoxContextMenuStrip1.Name = "textBoxContextMenuStrip1";
+            this.textBoxContextMenuStrip1.Size = new System.Drawing.Size(141, 160);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -345,6 +362,7 @@
             this.ClientSize = new System.Drawing.Size(1920, 1000);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.groupBox1);
+            this.MinimumSize = new System.Drawing.Size(1600, 900);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Search News";
@@ -375,6 +393,8 @@
         private MaterialSkin.Controls.MaterialComboBox sourceComboBox;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
+        private MaterialSkin.Controls.TextBoxContextMenuStrip textBoxContextMenuStrip1;
     }
 }
 

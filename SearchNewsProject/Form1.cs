@@ -6,7 +6,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.ServiceModel.Syndication;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace SearchNewsProject
 {
@@ -65,7 +68,8 @@ namespace SearchNewsProject
         {
             sourceComboBox.Items.Add("Bing API");
             sourceComboBox.Items.Add("News API");
-            sourceComboBox.SelectedIndex = 0;
+            sourceComboBox.Items.Add("Test");
+            sourceComboBox.SelectedIndex = 1;
 
             languageComboBox.Items.Add("Turkish");
             languageComboBox.Items.Add("English");
@@ -89,9 +93,14 @@ namespace SearchNewsProject
             {
                 searchByBingAPI();
             }
-            else
+            else if (sourceComboBox.SelectedIndex == 1)
             {
                 searchByNewsAPI();
+            }
+            else
+            {
+                getMultipleNews();
+                // MessageBox.Show("Test");
             }
         }
 
@@ -207,7 +216,8 @@ namespace SearchNewsProject
                 sortByComboBox.Items.Clear();
                 sortByComboBox.Items.Add("Newest");
                 sortByComboBox.Items.Add("None");
-                sortByComboBox.SelectedIndex = 0;
+                sortByComboBox.SelectedIndex = 1;
+                sortByComboBox.Refresh();
             }
             else
             {
@@ -219,7 +229,86 @@ namespace SearchNewsProject
                 sortByComboBox.Items.Add("Popularity");
                 sortByComboBox.Items.Add("Relevancy");
                 sortByComboBox.SelectedIndex = 0;
+                sortByComboBox.Refresh();
             }
         }
+
+        private void getMultipleNews()
+        {
+            string[] url = {
+                "https://www.hurriyet.com.tr/rss/gundem",
+                "https://www.sabah.com.tr/rss/anasayfa.xml",
+                "https://www.sabah.com.tr/rss/sondakika.xml",
+                "https://rss.haberler.com/rss.asp",
+                "https://www.ensonhaber.com/rss/mansetler.xml",
+                "https://www.ensonhaber.com/rss/ensonhaber.xml",
+                "http://www.haberturk.com/rss",
+                "https://www.cnnturk.com/feed/rss/all/news",
+                "https://www.ntv.com.tr/son-dakika.rss",
+                "https://www.takvim.com.tr/rss/anasayfa.xml",
+                "https://www.takvim.com.tr/rss/guncel.xml",
+                "http://www.mynet.com/haber/rss/sondakika",
+                "https://www.haber.com/news-rss/",
+                "https://www.cumhuriyet.com.tr/rss",
+                "https://onedio.com/secure/sitemap/news48.xml",
+                "https://tr.sputniknews.com/export/rss2/archive/index.xml",
+                "https://www.fotomac.com.tr/rss/anasayfa.xml",
+                "http://www.star.com.tr/rss/rss.asp"
+            };
+
+            List<ListItem> listItems = new List<ListItem>();
+
+            for (int i = 0; i < 3; i++)
+            {
+                XmlReader reader = XmlReader.Create(url[i]);
+                SyndicationFeed feed = SyndicationFeed.Load(reader);
+                reader.Close();
+
+                foreach (SyndicationItem item in feed.Items)
+                {
+                    ListItem listItem = new ListItem();
+                    listItem.setTitle(item.Title.Text);
+                    listItem.setDate(item.PublishDate.ToString());
+                    listItem.setAuthor(feed.Title.Text);
+                    listItem.setContent(item.Summary.Text);
+                    listItem.setLink(item.Links.ElementAt(0).Uri.ToString());
+                    listItem.setImage(item.Links.ElementAt(1).Uri.ToString());
+                    listItems.Add(listItem);
+                }
+            }
+
+            for(int i = 0; i < listItems.Count; i++)
+            {
+                populateListNew(listItems, i);
+            }
+
+
+        }
+
+        private void populateListNew(List<ListItem> listItems, int current)
+        {
+
+            
+
+            if (flowLayoutPanel1.Controls.Count < 0)
+            {
+                flowLayoutPanel1.Controls.Clear();
+            }
+            else
+            {
+                if (InvokeRequired)
+                {
+                    BeginInvoke((MethodInvoker)delegate ()
+                    {
+                        flowLayoutPanel1.Controls.Add(listItems.ElementAt(current));
+                    });
+                }
+                else
+                {
+                    flowLayoutPanel1.Controls.Add(listItems.ElementAt(current));
+                }
+            }
+        }
+
     }
 }

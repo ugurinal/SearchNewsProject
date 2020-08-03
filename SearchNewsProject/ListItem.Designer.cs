@@ -38,20 +38,22 @@
             // 
             // labelDate
             // 
+            this.labelDate.BackColor = System.Drawing.Color.Transparent;
             this.labelDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDate.Location = new System.Drawing.Point(3, 169);
+            this.labelDate.Location = new System.Drawing.Point(3, 159);
             this.labelDate.Name = "labelDate";
-            this.labelDate.Size = new System.Drawing.Size(120, 30);
+            this.labelDate.Size = new System.Drawing.Size(120, 18);
             this.labelDate.TabIndex = 9;
             this.labelDate.Text = "HÜRRİYET";
             this.labelDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelAuthor
             // 
+            this.labelAuthor.BackColor = System.Drawing.Color.Transparent;
             this.labelAuthor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelAuthor.Location = new System.Drawing.Point(3, 139);
             this.labelAuthor.Name = "labelAuthor";
-            this.labelAuthor.Size = new System.Drawing.Size(120, 30);
+            this.labelAuthor.Size = new System.Drawing.Size(120, 18);
             this.labelAuthor.TabIndex = 8;
             this.labelAuthor.Text = "HÜRRİYET";
             this.labelAuthor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -96,7 +98,7 @@
             this.Controls.Add(this.labelContent);
             this.Controls.Add(this.labelTitle);
             this.Name = "ListItem";
-            this.Size = new System.Drawing.Size(893, 200);
+            this.Size = new System.Drawing.Size(893, 191);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
