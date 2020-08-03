@@ -253,7 +253,8 @@ namespace SearchNewsProject
                 "https://onedio.com/secure/sitemap/news48.xml",
                 "https://tr.sputniknews.com/export/rss2/archive/index.xml",
                 "https://www.fotomac.com.tr/rss/anasayfa.xml",
-                "http://www.star.com.tr/rss/rss.asp"
+                "http://www.star.com.tr/rss/rss.asp",
+                "https://www.aa.com.tr/tr/rss/default?cat=guncel"
             };
 
             List<ListItem> listItems = new List<ListItem>();
