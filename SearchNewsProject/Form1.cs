@@ -190,22 +190,25 @@ namespace SearchNewsProject
 
                 int counter = 0;
 
-                for (int i = 0; i < jsonObj.totalEstimatedMatches; i++)
+                for (int i = 0; i < 5; i++)
                 {
-                    if (counter >= searchSize)
-                    {
-                        break;
-                    }
 
-                    ListItem listItem = new ListItem();
-                    listItem.setTitle(jsonObj.value[i].name);
+                    string title = jsonObj.value[i].name;
+                    string url = jsonObj.value[i].url;
+                    string imgLink = jsonObj.value[i].image.thumbnail.contentUrl;
+                    string content = jsonObj.value[i].description;
+                    string author = jsonObj.value[i].provider[0].name;
+                    string publishedAt = jsonObj.value[0].datePublished.ToString("dd/MM/yyyy HH:mm");
 
-                    listItem.setContent(jsonObj.value[i].description);
-                    listItem.setAuthor(jsonObj.value[i].provider[0].name);
-                    listItem.setImage(jsonObj.value[i].image.thumbnail.contentUrl);
-                    listItem.setLink(jsonObj.value[i].url);
-                    listItem.setDate(jsonObj.value[0].datePublished.ToString("dd/MM/yyyy HH:mm"));
-                    listItems.Add(listItem);
+                    ListItem temp = new ListItem();
+
+                    temp.setTitle(title);
+                    temp.setContent(content);
+                    temp.setAuthor(author);
+                    temp.setImage(imgLink);
+                    temp.setLink(url);
+                    temp.setDate(publishedAt);
+                    listItems.Add(temp);
                     counter++;
                 }
 

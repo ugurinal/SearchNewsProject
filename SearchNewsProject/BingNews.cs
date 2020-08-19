@@ -13,7 +13,7 @@ namespace SearchNewsProject
             public Dictionary<String, String> relevantHeaders;
         }
 
-        private const string accessKey = "bed27930d54c41098a15e25f235cb2a8";
+        private const string accessKey = "51bde0e9c4214628b8017100959cb161";
         private const string uriBase = "https://api.cognitive.microsoft.com/bing/v7.0/news/search";
         private string searchQuery = null;
 
@@ -23,6 +23,9 @@ namespace SearchNewsProject
             request.Headers["Ocp-Apim-Subscription-Key"] = accessKey;
             HttpWebResponse response = (HttpWebResponse)request.GetResponseAsync().Result;
             string json = new StreamReader(response.GetResponseStream()).ReadToEnd();
+
+            var sw = new StreamWriter(@"D:\BingNewsCS.txt");
+            sw.WriteLine(json);
 
             if (!String.IsNullOrEmpty(json))
             {
