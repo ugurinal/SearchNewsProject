@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.ServiceModel.Syndication;
 using System.Windows.Forms;
@@ -108,31 +107,59 @@ namespace SearchNewsProject
         {
             News news = new News();
 
-            string keyWords = keywordTextBox.Text;
-            int language = languageComboBox.SelectedIndex;
-            DateTime from = fromDateTimePicker.Value;
-            DateTime to = toDateTimePicker.Value;
-            int searchSize = Convert.ToInt32(searchSizeTextBox.Text);
-            int sortBy = sortByComboBox.SelectedIndex;
+            try
+            {
+                string keyWords = keywordTextBox.Text;
 
-            news.setEverythingRequest(keyWords, language, from, to, searchSize, sortBy);
+                int language = languageComboBox.SelectedIndex;
+                DateTime from = fromDateTimePicker.Value;
+                DateTime to = toDateTimePicker.Value;
+                int sortBy = sortByComboBox.SelectedIndex;
+                int searchSize = Convert.ToInt32(searchSizeTextBox.Text);
+
+                news.setEverythingRequest(keyWords, language, from, to, searchSize, sortBy);
+            }
+            catch (Exception e)
+            {
+                if (String.IsNullOrWhiteSpace(keywordTextBox.Text) || String.IsNullOrWhiteSpace(searchSizeTextBox.Text))
+                {
+                    MessageBox.Show("Search size or key words fields can not be empty.");
+                }
+                else /*if (Convert.ToInt32(searchSizeTextBox.Text) <= 0)
+                {
+                    MessageBox.Show("Search size can not be lower or equal to 0.");
+                }
+                else*/
+                {
+                    MessageBox.Show(e.Message);
+                }
+            }
+
+            //news.setEverythingRequest(keyWords, language, from, to, searchSize, sortBy);
 
             news.searchNews();
 
             if (news.getStatus().Equals("Ok"))
             {
                 List<Article> articles = news.getArticles();
+                List<ListItem> listItems = new List<ListItem>();
 
-                ListItem[] listItems = new ListItem[articles.Count];
-                int i = 0;
-
-                var sw = new StreamWriter(@"D:\searchNewsProject.txt");
-
-                foreach (var n in articles)
+                foreach (var newsResult in articles)
                 {
-                    sw.WriteLine("Başlık :  " + n.Title + " - Yazar : " + n.Author + " - Haber : " + n.Description + " - Link : " + n.Url + " - Tarih : " + n.PublishedAt + " URL : " + n.UrlToImage + "    status : " + news.getStatus());
-                    populateList(listItems, n.Title, n.Description, n.Author, n.UrlToImage, n.Url, n.PublishedAt.Value.ToString("dd/MM/yyyy HH:mm"), i);
-                    i++;
+                    ListItem temp = new ListItem();
+
+                    temp.setTitle(newsResult.Title);
+                    temp.setContent(newsResult.Description);
+                    temp.setAuthor(newsResult.Author);
+                    temp.setImage(newsResult.UrlToImage);
+                    temp.setLink(newsResult.Url);
+                    temp.setDate(newsResult.PublishedAt.Value.ToString("dd/MM/yyyy HH:mm"));
+                    listItems.Add(temp);
+                }
+
+                for (int i = 0; i < listItems.Count; i++)
+                {
+                    populateList(listItems, i);
                 }
             }
             else
@@ -167,20 +194,12 @@ namespace SearchNewsProject
                 string author = jsonObj.value[i].provider[0].name;
                 string publishedAt = jsonObj.value[0].datePublished.ToString("dd/MM/yyyy HH:mm");
 
-                populateList(listItems, title, content, author, imgLink, url, publishedAt, i);
+                //   populateList(listItems, title, content, author, imgLink, url, publishedAt, i);
             }
         }
 
-        private void populateList(ListItem[] list, string title, string content, string author, string imgLink, string newLink, string date, int current)
+        private void populateList(List<ListItem> listItems, int current)
         {
-            list[current] = new ListItem();
-            list[current].setTitle(title);
-            list[current].setContent(content);
-            list[current].setAuthor(author);
-            list[current].setImage(imgLink);
-            list[current].setLink(newLink);
-            list[current].setDate(date);
-
             if (flowLayoutPanel1.Controls.Count < 0)
             {
                 flowLayoutPanel1.Controls.Clear();
@@ -191,12 +210,12 @@ namespace SearchNewsProject
                 {
                     BeginInvoke((MethodInvoker)delegate ()
                     {
-                        flowLayoutPanel1.Controls.Add(list[current]);
+                        flowLayoutPanel1.Controls.Add(listItems.ElementAt(current));
                     });
                 }
                 else
                 {
-                    flowLayoutPanel1.Controls.Add(list[current]);
+                    flowLayoutPanel1.Controls.Add(listItems.ElementAt(current));
                 }
             }
         }
@@ -212,6 +231,8 @@ namespace SearchNewsProject
             {
                 fromDateTimePicker.Enabled = false;
                 toDateTimePicker.Enabled = false;
+                sortByComboBox.Enabled = true;
+                languageComboBox.Enabled = true;
 
                 sortByComboBox.Items.Clear();
                 sortByComboBox.Items.Add("Newest");
@@ -223,6 +244,8 @@ namespace SearchNewsProject
             {
                 fromDateTimePicker.Enabled = true;
                 toDateTimePicker.Enabled = true;
+                sortByComboBox.Enabled = true;
+                languageComboBox.Enabled = true;
 
                 sortByComboBox.Items.Clear();
                 sortByComboBox.Items.Add("Newest");

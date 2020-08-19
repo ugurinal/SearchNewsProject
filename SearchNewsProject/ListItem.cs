@@ -32,9 +32,9 @@ namespace SearchNewsProject
             pictureBox1.ImageLocation = link;
         }
 
-        public void setAuthor(string aurhor)
+        public void setAuthor(string author)
         {
-            labelAuthor.Text = aurhor;
+            labelAuthor.Text = author;
         }
 
         public void setDate(string date)
