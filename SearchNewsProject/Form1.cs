@@ -68,7 +68,7 @@ namespace SearchNewsProject
         {
             sourceComboBox.Items.Add("Bing API");
             sourceComboBox.Items.Add("News API");
-            sourceComboBox.Items.Add("Test");
+            sourceComboBox.Items.Add("Custom");
             sourceComboBox.SelectedIndex = 1;
 
             languageComboBox.Items.Add("Turkish");
@@ -219,7 +219,7 @@ namespace SearchNewsProject
                 sortByComboBox.SelectedIndex = 1;
                 sortByComboBox.Refresh();
             }
-            else
+            else if (sourceComboBox.SelectedIndex == 1)
             {
                 fromDateTimePicker.Enabled = true;
                 toDateTimePicker.Enabled = true;
@@ -230,6 +230,13 @@ namespace SearchNewsProject
                 sortByComboBox.Items.Add("Relevancy");
                 sortByComboBox.SelectedIndex = 0;
                 sortByComboBox.Refresh();
+            }
+            else
+            {
+                fromDateTimePicker.Enabled = true;
+                toDateTimePicker.Enabled = true;
+                sortByComboBox.Enabled = false;
+                languageComboBox.Enabled = false;
             }
         }
 
@@ -259,7 +266,7 @@ namespace SearchNewsProject
 
             List<ListItem> listItems = new List<ListItem>();
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
                 XmlReader reader = XmlReader.Create(url[i]);
                 SyndicationFeed feed = SyndicationFeed.Load(reader);
@@ -278,19 +285,14 @@ namespace SearchNewsProject
                 }
             }
 
-            for(int i = 0; i < listItems.Count; i++)
+            for (int i = 0; i < listItems.Count; i++)
             {
                 populateListNew(listItems, i);
             }
-
-
         }
 
         private void populateListNew(List<ListItem> listItems, int current)
         {
-
-            
-
             if (flowLayoutPanel1.Controls.Count < 0)
             {
                 flowLayoutPanel1.Controls.Clear();
@@ -310,6 +312,5 @@ namespace SearchNewsProject
                 }
             }
         }
-
     }
 }
