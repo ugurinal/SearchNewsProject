@@ -60,7 +60,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AllNews.cs" />
     <Compile Include="BingNews.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

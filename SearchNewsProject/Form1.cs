@@ -105,66 +105,62 @@ namespace SearchNewsProject
 
         private void searchByNewsAPI()
         {
-            News news = new News();
-
-            try
+            if (String.IsNullOrWhiteSpace(keywordTextBox.Text) || String.IsNullOrEmpty(searchSizeTextBox.Text))
+            {
+                MessageBox.Show("Search size or keywords fields can not be empty.");
+            }
+            else if (Convert.ToInt32(searchSizeTextBox.Text) < 0)
+            {
+                MessageBox.Show("Search size can not be lower than 0.");
+            }
+            else
             {
                 string keyWords = keywordTextBox.Text;
-
+                int searchSize = Convert.ToInt32(searchSizeTextBox.Text);
                 int language = languageComboBox.SelectedIndex;
                 DateTime from = fromDateTimePicker.Value;
                 DateTime to = toDateTimePicker.Value;
                 int sortBy = sortByComboBox.SelectedIndex;
-                int searchSize = Convert.ToInt32(searchSizeTextBox.Text);
 
+                News news = new News();
                 news.setEverythingRequest(keyWords, language, from, to, searchSize, sortBy);
-            }
-            catch (Exception e)
-            {
-                if (String.IsNullOrWhiteSpace(keywordTextBox.Text) || String.IsNullOrWhiteSpace(searchSizeTextBox.Text))
+
+                news.searchNews();
+
+                if (news.getStatus().Equals("Ok"))
                 {
-                    MessageBox.Show("Search size or keywords fields can not be empty.");
+                    List<Article> articles = news.getArticles();
+                    List<ListItem> listItems = new List<ListItem>();
+
+                    int counter = 0;
+
+                    foreach (var newsResult in articles)
+                    {
+                        if (counter >= searchSize)
+                        {
+                            break;
+                        }
+
+                        ListItem temp = new ListItem();
+                        temp.setTitle(newsResult.Title);
+                        temp.setContent(newsResult.Description);
+                        temp.setAuthor(newsResult.Author);
+                        temp.setImage(newsResult.UrlToImage);
+                        temp.setLink(newsResult.Url);
+                        temp.setDate(newsResult.PublishedAt.Value.ToString("dd/MM/yyyy HH:mm"));
+                        listItems.Add(temp);
+                        counter++;
+                    }
+
+                    for (int i = 0; i < listItems.Count; i++)
+                    {
+                        populateList(listItems, i);
+                    }
                 }
-                else /*if (Convert.ToInt32(searchSizeTextBox.Text) <= 0)
+                else
                 {
-                    MessageBox.Show("Search size can not be lower or equal to 0.");
+                    MessageBox.Show("Status : " + news.getStatus());
                 }
-                else*/
-                {
-                    MessageBox.Show(e.Message);
-                }
-            }
-
-            //news.setEverythingRequest(keyWords, language, from, to, searchSize, sortBy);
-
-            news.searchNews();
-
-            if (news.getStatus().Equals("Ok"))
-            {
-                List<Article> articles = news.getArticles();
-                List<ListItem> listItems = new List<ListItem>();
-
-                foreach (var newsResult in articles)
-                {
-                    ListItem temp = new ListItem();
-
-                    temp.setTitle(newsResult.Title);
-                    temp.setContent(newsResult.Description);
-                    temp.setAuthor(newsResult.Author);
-                    temp.setImage(newsResult.UrlToImage);
-                    temp.setLink(newsResult.Url);
-                    temp.setDate(newsResult.PublishedAt.Value.ToString("dd/MM/yyyy HH:mm"));
-                    listItems.Add(temp);
-                }
-
-                for (int i = 0; i < listItems.Count; i++)
-                {
-                    populateList(listItems, i);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Status : " + news.getStatus());
             }
         }
 
