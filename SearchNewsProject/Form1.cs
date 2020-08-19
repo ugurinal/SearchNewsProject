@@ -166,31 +166,53 @@ namespace SearchNewsProject
 
         private void searchByBingAPI()
         {
-            BingNews bingNews = new BingNews();
-
-            string keyWords = keywordTextBox.Text;
-            int language = languageComboBox.SelectedIndex;
-            int searchSize = Convert.ToInt32(searchSizeTextBox.Text);
-            int sortBy = sortByComboBox.SelectedIndex;
-
-            bingNews.setSearchQuery(keyWords, language, searchSize, sortBy);
-
-            dynamic jsonObj = bingNews.getBingNews();
-
-            int size = Convert.ToInt32(searchSizeTextBox.Text);
-
-            ListItem[] listItems = new ListItem[size];
-
-            for (int i = 0; i < size; i++)
+            if (String.IsNullOrWhiteSpace(keywordTextBox.Text) || String.IsNullOrWhiteSpace(searchSizeTextBox.Text))
             {
-                string title = jsonObj.value[i].name;
-                string url = jsonObj.value[i].url;
-                string imgLink = jsonObj.value[i].image.thumbnail.contentUrl;
-                string content = jsonObj.value[i].description;
-                string author = jsonObj.value[i].provider[0].name;
-                string publishedAt = jsonObj.value[0].datePublished.ToString("dd/MM/yyyy HH:mm");
+                MessageBox.Show("Search size or keywords fields can not be empty.");
+            }
+            else if (Convert.ToInt32(searchSizeTextBox.Text) < 0)
+            {
+                MessageBox.Show("Search size can not be lower or equal to 0.");
+            }
+            else
+            {
+                string keyWords = keywordTextBox.Text;
+                int language = languageComboBox.SelectedIndex;
+                int searchSize = Convert.ToInt32(searchSizeTextBox.Text);
+                int sortBy = sortByComboBox.SelectedIndex;
 
-                //   populateList(listItems, title, content, author, imgLink, url, publishedAt, i);
+                BingNews bingNews = new BingNews();
+                bingNews.setSearchQuery(keyWords, language, searchSize, sortBy);
+
+                dynamic jsonObj = bingNews.getBingNews();
+
+                List<ListItem> listItems = new List<ListItem>();
+
+                int counter = 0;
+
+                for (int i = 0; i < jsonObj.totalEstimatedMatches; i++)
+                {
+                    if (counter >= searchSize)
+                    {
+                        break;
+                    }
+
+                    ListItem listItem = new ListItem();
+                    listItem.setTitle(jsonObj.value[i].name);
+
+                    listItem.setContent(jsonObj.value[i].description);
+                    listItem.setAuthor(jsonObj.value[i].provider[0].name);
+                    listItem.setImage(jsonObj.value[i].image.thumbnail.contentUrl);
+                    listItem.setLink(jsonObj.value[i].url);
+                    listItem.setDate(jsonObj.value[0].datePublished.ToString("dd/MM/yyyy HH:mm"));
+                    listItems.Add(listItem);
+                    counter++;
+                }
+
+                for (int i = 0; i < listItems.Count; i++)
+                {
+                    populateList(listItems, i);
+                }
             }
         }
 
