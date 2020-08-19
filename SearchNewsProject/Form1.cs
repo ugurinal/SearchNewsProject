@@ -123,7 +123,7 @@ namespace SearchNewsProject
             {
                 if (String.IsNullOrWhiteSpace(keywordTextBox.Text) || String.IsNullOrWhiteSpace(searchSizeTextBox.Text))
                 {
-                    MessageBox.Show("Search size or key words fields can not be empty.");
+                    MessageBox.Show("Search size or keywords fields can not be empty.");
                 }
                 else /*if (Convert.ToInt32(searchSizeTextBox.Text) <= 0)
                 {
@@ -212,10 +212,6 @@ namespace SearchNewsProject
                     {
                         flowLayoutPanel1.Controls.Add(listItems.ElementAt(current));
                     });
-                }
-                else
-                {
-                    flowLayoutPanel1.Controls.Add(listItems.ElementAt(current));
                 }
             }
         }
