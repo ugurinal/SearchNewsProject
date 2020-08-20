@@ -214,7 +214,6 @@ namespace SearchNewsProject
                     }
                     catch (Exception e)
                     {
-                        //MessageBox.Show(e.Message);
                     }
                 }
 
