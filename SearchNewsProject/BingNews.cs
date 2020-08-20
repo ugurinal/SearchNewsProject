@@ -24,9 +24,6 @@ namespace SearchNewsProject
             HttpWebResponse response = (HttpWebResponse)request.GetResponseAsync().Result;
             string json = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
-            var sw = new StreamWriter(@"D:\BingNewsCS.txt");
-            sw.WriteLine(json);
-
             if (!String.IsNullOrEmpty(json))
             {
                 var searchResult = new SearchResult()
@@ -54,7 +51,6 @@ namespace SearchNewsProject
         public void setSearchQuery(string keywords, int language, int searchSize, int sortBy)
         {
             string lang;
-            
 
             switch (language)
             {

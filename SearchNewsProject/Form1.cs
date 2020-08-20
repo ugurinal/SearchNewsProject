@@ -190,29 +190,36 @@ namespace SearchNewsProject
 
                 int counter = 0;
 
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < searchSize; i++)
                 {
+                    try
+                    {
+                        string title = jsonObj.value[i].name;
+                        string url = jsonObj.value[i].url;
+                        string imgLink = jsonObj.value[i].image.thumbnail.contentUrl;
+                        string content = jsonObj.value[i].description;
+                        string author = jsonObj.value[i].provider[0].name;
+                        string publishedAt = jsonObj.value[0].datePublished.ToString("dd/MM/yyyy HH:mm");
 
-                    string title = jsonObj.value[i].name;
-                    string url = jsonObj.value[i].url;
-                    string imgLink = jsonObj.value[i].image.thumbnail.contentUrl;
-                    string content = jsonObj.value[i].description;
-                    string author = jsonObj.value[i].provider[0].name;
-                    string publishedAt = jsonObj.value[0].datePublished.ToString("dd/MM/yyyy HH:mm");
+                        ListItem temp = new ListItem();
 
-                    ListItem temp = new ListItem();
-
-                    temp.setTitle(title);
-                    temp.setContent(content);
-                    temp.setAuthor(author);
-                    temp.setImage(imgLink);
-                    temp.setLink(url);
-                    temp.setDate(publishedAt);
-                    listItems.Add(temp);
-                    counter++;
+                        temp.setTitle(title);
+                        temp.setContent(content);
+                        temp.setAuthor(author);
+                        temp.setImage(imgLink);
+                        temp.setLink(url);
+                        temp.setDate(publishedAt);
+                        listItems.Add(temp);
+                        counter++;
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message);
+                        
+                    }
                 }
 
-                for (int i = 0; i < listItems.Count; i++)
+                for (int i = 0; i < searchSize; i++)
                 {
                     populateList(listItems, i);
                 }
