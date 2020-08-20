@@ -238,7 +238,7 @@ namespace SearchNewsProject
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            MessageBox.Show("Background worker complete.");
+            MessageBox.Show("Background worker done.");
         }
 
         private void sourceComboBox_SelectedIndexChanged(object sender, EventArgs e)
