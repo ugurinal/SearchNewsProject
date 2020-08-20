@@ -214,8 +214,7 @@ namespace SearchNewsProject
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message);
-                        
+                        //MessageBox.Show(e.Message);
                     }
                 }
 
@@ -228,19 +227,12 @@ namespace SearchNewsProject
 
         private void populateList(List<ListItem> listItems, int current)
         {
-            if (flowLayoutPanel1.Controls.Count < 0)
+            if (InvokeRequired && listItems.ElementAt(current) != null)
             {
-                flowLayoutPanel1.Controls.Clear();
-            }
-            else
-            {
-                if (InvokeRequired)
+                BeginInvoke((MethodInvoker)delegate ()
                 {
-                    BeginInvoke((MethodInvoker)delegate ()
-                    {
-                        flowLayoutPanel1.Controls.Add(listItems.ElementAt(current));
-                    });
-                }
+                    flowLayoutPanel1.Controls.Add(listItems.ElementAt(current));
+                });
             }
         }
 
