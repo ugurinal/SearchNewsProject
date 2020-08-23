@@ -216,8 +216,8 @@ namespace SearchNewsProject
                     {
                     }
                 }
-                
-                if(listItems.Count < searchSize)
+
+                if (listItems.Count < searchSize)
                 {
                     searchSize = listItems.Count;
                 }
@@ -295,7 +295,7 @@ namespace SearchNewsProject
         private void getMultipleNews()
         {
             string[] url = {
-                "https://www.hurriyet.com.tr/rss/gundem",
+                /*"https://www.hurriyet.com.tr/rss/gundem",*/
                 "https://www.sabah.com.tr/rss/anasayfa.xml",
                 "https://www.sabah.com.tr/rss/sondakika.xml",
                 "https://rss.haberler.com/rss.asp",
@@ -318,24 +318,35 @@ namespace SearchNewsProject
 
             List<ListItem> listItems = new List<ListItem>();
 
-            for (int i = 0; i < 2; i++)
+            try
             {
-                XmlReader reader = XmlReader.Create(url[i]);
-                SyndicationFeed feed = SyndicationFeed.Load(reader);
-                reader.Close();
-
-                foreach (SyndicationItem item in feed.Items)
+                for (int i = 0; i < url.Length; i++)
                 {
-                    ListItem listItem = new ListItem();
-                    listItem.setTitle(item.Title.Text);
-                    listItem.setDate(item.PublishDate.ToString());
-                    listItem.setAuthor(feed.Title.Text);
-                    listItem.setContent(item.Summary.Text);
-                    listItem.setLink(item.Links.ElementAt(0).Uri.ToString());
-                    listItem.setImage(item.Links.ElementAt(1).Uri.ToString());
-                    listItems.Add(listItem);
+
+                    XmlReader reader = XmlReader.Create(url[i]);
+                    SyndicationFeed feed = SyndicationFeed.Load(reader);
+                    reader.Close();
+
+                    foreach (SyndicationItem item in feed.Items)
+                    {
+                        ListItem listItem = new ListItem();
+                        listItem.setTitle(item.Title.Text);
+                        listItem.setDate(item.PublishDate.ToString());
+                        listItem.setAuthor(feed.Title.Text);
+                        listItem.setContent(item.Summary.Text);
+                        listItem.setLink(item.Links.ElementAt(0).Uri.ToString());
+                        listItem.setImage(item.Links.ElementAt(1).Uri.ToString());
+                        listItems.Add(listItem);
+                    }
                 }
             }
+            catch (Exception e)
+            {
+
+                MessageBox.Show(e.Message);
+            }
+
+
 
             for (int i = 0; i < listItems.Count; i++)
             {
