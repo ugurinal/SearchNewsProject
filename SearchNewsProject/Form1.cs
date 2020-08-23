@@ -216,6 +216,11 @@ namespace SearchNewsProject
                     {
                     }
                 }
+                
+                if(listItems.Count < searchSize)
+                {
+                    searchSize = listItems.Count;
+                }
 
                 for (int i = 0; i < searchSize; i++)
                 {
