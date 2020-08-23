@@ -226,12 +226,21 @@ namespace SearchNewsProject
 
         private void populateList(List<ListItem> listItems, int current)
         {
-            if (InvokeRequired && listItems.ElementAt(current) != null)
+
+            try
             {
-                BeginInvoke((MethodInvoker)delegate ()
+                if (InvokeRequired && listItems.ElementAt(current) != null)
                 {
-                    flowLayoutPanel1.Controls.Add(listItems.ElementAt(current));
-                });
+                    BeginInvoke((MethodInvoker)delegate ()
+                    {
+                        flowLayoutPanel1.Controls.Add(listItems.ElementAt(current));
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+
+                MessageBox.Show(e.Message);
             }
         }
 

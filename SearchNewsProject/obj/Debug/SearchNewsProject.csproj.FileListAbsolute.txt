@@ -14,5 +14,4 @@ C:\Users\uguri\source\repos\SearchNewsProject\SearchNewsProject\obj\Debug\Search
 C:\Users\uguri\source\repos\SearchNewsProject\SearchNewsProject\obj\Debug\SearchNewsProject.csproj.CopyComplete
 C:\Users\uguri\source\repos\SearchNewsProject\SearchNewsProject\obj\Debug\SearchNewsProject.exe
 C:\Users\uguri\source\repos\SearchNewsProject\SearchNewsProject\obj\Debug\SearchNewsProject.pdb
-C:\Users\uguri\source\repos\SearchNewsProject\SearchNewsProject\bin\Debug\XanderUI.dll
 C:\Users\uguri\source\repos\SearchNewsProject\SearchNewsProject\obj\Debug\SearchNewsProject.ListItem.resources
