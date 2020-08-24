@@ -358,10 +358,15 @@ namespace SearchNewsProject
 
             XmlNode xmlNode = rssNodes.Item(1);
 
-            int subIndex = xmlNode.SelectSingleNode("description").InnerText.IndexOf("<br />") + 6;
-            int lastIndex = xmlNode.SelectSingleNode("description").InnerText.IndexOf("...<a href");
-            string title = xmlNode.SelectSingleNode("description").InnerText.Substring(subIndex, (lastIndex - subIndex) + 1);
-            MessageBox.Show(title);
+            int startIndex = xmlNode.SelectSingleNode("description").InnerText.IndexOf("<br />") + 6;
+            int lastIndex = xmlNode.SelectSingleNode("description").InnerText.IndexOf("...<a");
+            string description = xmlNode.SelectSingleNode("description").InnerText.Substring(startIndex, (lastIndex - startIndex) + 1);
+            string link = xmlNode.SelectSingleNode("link").InnerText;
+            string imgLink = xmlNode.SelectSingleNode("enclosure").Attributes.Item(0).InnerText;
+
+            MessageBox.Show(description);
+            MessageBox.Show(link);
+            MessageBox.Show(imgLink);
         }
 
         private void populateListNew(List<ListItem> listItems, int current)
