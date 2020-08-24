@@ -293,25 +293,24 @@ namespace SearchNewsProject
         private void getCustomNews()
         {
             string[] url = {
-                /*"https://www.hurriyet.com.tr/rss/gundem",*/
-                "https://www.sabah.com.tr/rss/anasayfa.xml",
-                "https://www.sabah.com.tr/rss/sondakika.xml",
-                "https://rss.haberler.com/rss.asp",
-                "https://www.ensonhaber.com/rss/mansetler.xml",
-                "https://www.ensonhaber.com/rss/ensonhaber.xml",
-                "http://www.haberturk.com/rss",
-                "https://www.cnnturk.com/feed/rss/all/news",
-                "https://www.ntv.com.tr/son-dakika.rss",
-                "https://www.takvim.com.tr/rss/anasayfa.xml",
-                "https://www.takvim.com.tr/rss/guncel.xml",
-                "http://www.mynet.com/haber/rss/sondakika",
-                "https://www.haber.com/news-rss/",
-                "https://www.cumhuriyet.com.tr/rss",
-                "https://onedio.com/secure/sitemap/news48.xml",
-                "https://tr.sputniknews.com/export/rss2/archive/index.xml",
-                "https://www.fotomac.com.tr/rss/anasayfa.xml",
-                "http://www.star.com.tr/rss/rss.asp",
-                "https://www.aa.com.tr/tr/rss/default?cat=guncel"
+                "https://www.sabah.com.tr/rss/anasayfa.xml",        // same 0
+                "https://www.sabah.com.tr/rss/sondakika.xml",       // same 0
+                "https://www.takvim.com.tr/rss/anasayfa.xml",       // same 0
+                "https://www.takvim.com.tr/rss/guncel.xml",         // same 0
+                "https://www.fotomac.com.tr/rss/anasayfa.xml",      // same 0
+                "https://rss.haberler.com/rss.asp",                 // same 1
+                "https://www.haber.com/news-rss/",                  // same 1
+                "https://tr.sputniknews.com/export/rss2/archive/index.xml",// same1
+                "http://www.star.com.tr/rss/rss.asp",               // same 1
+                "https://www.ensonhaber.com/rss/mansetler.xml",     // same 2
+                "https://www.ensonhaber.com/rss/ensonhaber.xml",    // same 2
+                "http://www.haberturk.com/rss",                     // same 2
+                "https://www.cnnturk.com/feed/rss/all/news",        // same 3
+                /*"https://www.hurriyet.com.tr/rss/gundem",*/       // same 3
+                "https://www.ntv.com.tr/son-dakika.rss",            // same 4
+                "http://www.mynet.com/haber/rss/sondakika",         // same 5
+                "https://www.cumhuriyet.com.tr/rss",                // same 6
+                "https://www.aa.com.tr/tr/rss/default?cat=guncel"   // same 7
             };
 
             List<ListItem> listItems = new List<ListItem>();
@@ -350,23 +349,96 @@ namespace SearchNewsProject
 
         private void getCustomNews2()
         {
-            XmlDocument rssXmlDoc = new XmlDocument();
+            string[] sourceUrls = {
+                "https://www.sabah.com.tr/rss/anasayfa.xml",        // same 0
+                "https://www.sabah.com.tr/rss/sondakika.xml",       // same 0
+                "https://www.takvim.com.tr/rss/anasayfa.xml",       // same 0
+                "https://www.takvim.com.tr/rss/guncel.xml",         // same 0
+                "https://www.fotomac.com.tr/rss/anasayfa.xml",      // same 0
+                "https://rss.haberler.com/rss.asp",                 // same 1
+                "https://www.haber.com/news-rss/",                  // same 1
+                "https://tr.sputniknews.com/export/rss2/archive/index.xml",// same1
+                "http://www.star.com.tr/rss/rss.asp",               // same 1
+                "https://www.ensonhaber.com/rss/mansetler.xml",     // same 2
+                "https://www.ensonhaber.com/rss/ensonhaber.xml",    // same 2
+                "http://www.haberturk.com/rss",                     // same 2
+                "https://www.cnnturk.com/feed/rss/all/news",        // same 3
+                /*"https://www.hurriyet.com.tr/rss/gundem",*/       // same 3
+                "https://www.ntv.com.tr/son-dakika.rss",            // same 4
+                "http://www.mynet.com/haber/rss/sondakika",         // same 5
+                "https://www.cumhuriyet.com.tr/rss",                // same 6
+                "https://www.aa.com.tr/tr/rss/default?cat=guncel"   // same 7
+            };
 
-            rssXmlDoc.Load("https://www.sabah.com.tr/rss/gundem.xml");
+            List<ListItem> listItems = new List<ListItem>();
 
-            XmlNodeList rssNodes = rssXmlDoc.SelectNodes("rss/channel/item");
+            for (int i = 0; i < 3; i++)
+            {
+                XmlDocument rssXmlDoc = new XmlDocument();
 
-            XmlNode xmlNode = rssNodes.Item(1);
+                rssXmlDoc.Load(sourceUrls[i]);
 
-            int startIndex = xmlNode.SelectSingleNode("description").InnerText.IndexOf("<br />") + 6;
-            int lastIndex = xmlNode.SelectSingleNode("description").InnerText.IndexOf("...<a");
-            string description = xmlNode.SelectSingleNode("description").InnerText.Substring(startIndex, (lastIndex - startIndex) + 1);
-            string link = xmlNode.SelectSingleNode("link").InnerText;
-            string imgLink = xmlNode.SelectSingleNode("enclosure").Attributes.Item(0).InnerText;
+                XmlNodeList rssNodes = rssXmlDoc.SelectNodes("rss/channel/item");
+                XmlNodeList channelNode = rssXmlDoc.SelectNodes("rss/channel");
 
-            MessageBox.Show(description);
-            MessageBox.Show(link);
-            MessageBox.Show(imgLink);
+                XmlNode xml = channelNode.Item(0);
+
+                string author = xml.SelectSingleNode("title").InnerText;
+
+                foreach (XmlNode singleNode in rssNodes)
+                {
+                    ListItem listItem = new ListItem();
+
+                    int startIndex = 0, lastIndex = 0;
+
+                    string title = null;
+                   // string author = channelNode.SelectSingleNode("title");
+                    string description = null;
+                    string link = null;
+                    string pubDate = null;
+                    string imgLink = null;
+
+                    if (i < 5)
+                    {
+                        startIndex = singleNode.SelectSingleNode("description").InnerText.IndexOf("<br />") + 6;
+                        lastIndex = singleNode.SelectSingleNode("description").InnerText.IndexOf("<a href");
+
+                        title = singleNode.SelectSingleNode("title").InnerText;
+                        link = singleNode.SelectSingleNode("link").InnerText;
+                        pubDate = singleNode.SelectSingleNode("pubDate").InnerText;
+                        description = singleNode.SelectSingleNode("description").InnerText.Substring(startIndex, (lastIndex - startIndex));
+                    }
+
+                    if (i == 1)
+                    {
+                        imgLink = "https://isbh.tmgrup.com.tr/sbh/v5/i/logoBig.png";
+                    }
+                    else
+                    {
+                        imgLink = singleNode.SelectSingleNode("enclosure").Attributes["url"].Value;
+                    }
+
+                    listItem.setAuthor(author);
+                    listItem.setContent(description);
+                    listItem.setDate(pubDate);
+                    listItem.setImage(imgLink);
+                    listItem.setLink(link);
+                    listItem.setTitle(title);
+                    listItems.Add(listItem);
+                }
+            }
+
+            for (int i = 0; i < listItems.Count; i++)
+            {
+                populateListNew(listItems, i);
+            }
+
+            // XmlNode xmlNode = rssNodes.Item(1);
+
+            /* MessageBox.Show(description);
+             MessageBox.Show(link);
+
+             MessageBox.Show(imgLink0);*/
         }
 
         private void populateListNew(List<ListItem> listItems, int current)
