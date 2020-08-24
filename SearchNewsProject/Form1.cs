@@ -98,8 +98,7 @@ namespace SearchNewsProject
             }
             else
             {
-                getMultipleNews();
-                // MessageBox.Show("Test");
+                getCustomNews();
             }
         }
 
@@ -231,7 +230,6 @@ namespace SearchNewsProject
 
         private void populateList(List<ListItem> listItems, int current)
         {
-
             try
             {
                 if (InvokeRequired && listItems.ElementAt(current) != null)
@@ -244,7 +242,6 @@ namespace SearchNewsProject
             }
             catch (Exception e)
             {
-
                 MessageBox.Show(e.Message);
             }
         }
@@ -292,7 +289,7 @@ namespace SearchNewsProject
             }
         }
 
-        private void getMultipleNews()
+        private void getCustomNews()
         {
             string[] url = {
                 /*"https://www.hurriyet.com.tr/rss/gundem",*/
@@ -322,7 +319,6 @@ namespace SearchNewsProject
             {
                 for (int i = 0; i < url.Length; i++)
                 {
-
                     XmlReader reader = XmlReader.Create(url[i]);
                     SyndicationFeed feed = SyndicationFeed.Load(reader);
                     reader.Close();
@@ -342,11 +338,8 @@ namespace SearchNewsProject
             }
             catch (Exception e)
             {
-
                 MessageBox.Show(e.Message);
             }
-
-
 
             for (int i = 0; i < listItems.Count; i++)
             {
@@ -368,10 +361,6 @@ namespace SearchNewsProject
                     {
                         flowLayoutPanel1.Controls.Add(listItems.ElementAt(current));
                     });
-                }
-                else
-                {
-                    flowLayoutPanel1.Controls.Add(listItems.ElementAt(current));
                 }
             }
         }
