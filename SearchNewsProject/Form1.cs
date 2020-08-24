@@ -378,21 +378,18 @@ namespace SearchNewsProject
 
                 rssXmlDoc.Load(sourceUrls[i]);
 
-                XmlNodeList rssNodes = rssXmlDoc.SelectNodes("rss/channel/item");
                 XmlNodeList channelNode = rssXmlDoc.SelectNodes("rss/channel");
+                XmlNodeList itemNode = rssXmlDoc.SelectNodes("rss/channel/item");
 
-                XmlNode xml = channelNode.Item(0);
+                string author = channelNode.Item(0).SelectSingleNode("title").InnerText;
 
-                string author = xml.SelectSingleNode("title").InnerText;
-
-                foreach (XmlNode singleNode in rssNodes)
+                foreach (XmlNode singleNode in itemNode)
                 {
                     ListItem listItem = new ListItem();
 
                     int startIndex = 0, lastIndex = 0;
 
                     string title = null;
-                   // string author = channelNode.SelectSingleNode("title");
                     string description = null;
                     string link = null;
                     string pubDate = null;
