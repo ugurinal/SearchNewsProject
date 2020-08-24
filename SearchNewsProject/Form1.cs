@@ -249,6 +249,8 @@ namespace SearchNewsProject
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            flowLayoutPanel1.Refresh();
+            MessageBox.Show(flowLayoutPanel1.Controls.Count.ToString());
             MessageBox.Show("Background worker done.");
         }
 
@@ -372,7 +374,7 @@ namespace SearchNewsProject
 
             List<ListItem> listItems = new List<ListItem>();
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 5; i++)
             {
                 XmlDocument rssXmlDoc = new XmlDocument();
 
@@ -429,13 +431,6 @@ namespace SearchNewsProject
             {
                 populateListNew(listItems, i);
             }
-
-            // XmlNode xmlNode = rssNodes.Item(1);
-
-            /* MessageBox.Show(description);
-             MessageBox.Show(link);
-
-             MessageBox.Show(imgLink0);*/
         }
 
         private void populateListNew(List<ListItem> listItems, int current)
