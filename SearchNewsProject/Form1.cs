@@ -98,7 +98,8 @@ namespace SearchNewsProject
             }
             else
             {
-                getCustomNews();
+                getCustomNews2();
+                //getCustomNews();
             }
         }
 
@@ -345,6 +346,22 @@ namespace SearchNewsProject
             {
                 populateListNew(listItems, i);
             }
+        }
+
+        private void getCustomNews2()
+        {
+            XmlDocument rssXmlDoc = new XmlDocument();
+
+            rssXmlDoc.Load("https://www.sabah.com.tr/rss/gundem.xml");
+
+            XmlNodeList rssNodes = rssXmlDoc.SelectNodes("rss/channel/item");
+
+            XmlNode xmlNode = rssNodes.Item(1);
+
+            int subIndex = xmlNode.SelectSingleNode("description").InnerText.IndexOf("<br />") + 6;
+            int lastIndex = xmlNode.SelectSingleNode("description").InnerText.IndexOf("...<a href");
+            string title = xmlNode.SelectSingleNode("description").InnerText.Substring(subIndex, (lastIndex - subIndex) + 1);
+            MessageBox.Show(title);
         }
 
         private void populateListNew(List<ListItem> listItems, int current)
