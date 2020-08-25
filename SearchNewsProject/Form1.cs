@@ -278,8 +278,6 @@ namespace SearchNewsProject
                 backButton.Enabled = false;
                 forwardButton.Visible = true;
             }
-            MessageBox.Show("Background worker done.");
-            MessageBox.Show("Flow layout panel count: " + flowLayoutPanel1.Controls.Count);
         }
 
         private void sourceComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -348,7 +346,7 @@ namespace SearchNewsProject
             /*Find how many item nodes does the rss feed have.
              * For updating progress bar we have to know how many nodes there are.
             */
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 9; i++)
             {
                 XmlDocument rssXmlDoc = new XmlDocument();
 
@@ -359,7 +357,7 @@ namespace SearchNewsProject
                 nodeCounter += itemNode.Count;
             }
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 9; i++)
             {
                 XmlDocument rssXmlDoc = new XmlDocument();
 
@@ -374,32 +372,75 @@ namespace SearchNewsProject
                 {
                     ListItem listItem = new ListItem();
 
-                    int startIndex = 0, lastIndex = 0;
+                    string title = singleNode.SelectSingleNode("title").InnerText; ;
 
-                    string title = null;
-                    string description = null;
-                    string link = null;
-                    string pubDate = null;
+                    string link = singleNode.SelectSingleNode("link").InnerText;
+                    string pubDate = singleNode.SelectSingleNode("pubDate").InnerText;
                     string imgLink = null;
+                    string description = null;
 
                     if (i < 5)
                     {
+                        int startIndex = 0, lastIndex = 0;
+
                         startIndex = singleNode.SelectSingleNode("description").InnerText.IndexOf("<br />") + 6;
                         lastIndex = singleNode.SelectSingleNode("description").InnerText.IndexOf("<a href");
 
-                        title = singleNode.SelectSingleNode("title").InnerText;
-                        link = singleNode.SelectSingleNode("link").InnerText;
-                        pubDate = singleNode.SelectSingleNode("pubDate").InnerText;
                         description = singleNode.SelectSingleNode("description").InnerText.Substring(startIndex, (lastIndex - startIndex));
                     }
-
-                    if (i == 1)
+                    else if (i >= 5 && i <= 8)
                     {
-                        imgLink = "https://isbh.tmgrup.com.tr/sbh/v5/i/logoBig.png";
+                        description = singleNode.SelectSingleNode("description").InnerText;
+                    }
+
+                    if (singleNode.SelectSingleNode("enclosure") != null)
+                    {
+                        imgLink = singleNode.SelectSingleNode("enclosure").Attributes["url"].Value;
                     }
                     else
                     {
-                        imgLink = singleNode.SelectSingleNode("enclosure").Attributes["url"].Value;
+                        switch (i)
+                        {
+                            case 0:
+                                imgLink = "https://isbh.tmgrup.com.tr/sbh/v5/i/logoBig.png";
+                                break;
+
+                            case 1:
+                                imgLink = "https://isbh.tmgrup.com.tr/sbh/v5/i/logoBig.png";
+                                break;
+
+                            case 2:
+                                imgLink = "https://www.takvim.com.tr/c/tk/i/i/takvim_logo2.gif";
+                                break;
+
+                            case 3:
+                                imgLink = "https://www.takvim.com.tr/c/tk/i/i/takvim_logo2.gif";
+                                break;
+
+                            case 4:
+                                imgLink = "https://www.fotomac.com.tr/Content/v1/i/n-logo.png";
+                                break;
+
+                            case 5:
+                                imgLink = "https://www.haberler.com/static/img/tasarim/haberler-logo.svg";
+                                break;
+
+                            case 6:
+                                imgLink = "https://www.haber.com/wp-content/uploads/2020/01/80518294-55099622.png";
+                                break;
+
+                            case 7:
+                                imgLink = "https://tr.sputniknews.com/i/logo-social.png";
+                                break;
+
+                            case 8:
+                                imgLink = "https://www.turkmedya.com.tr/assets/img/logo/logo_star.png?v=1.0";
+                                break;
+
+                            default:
+                                imgLink = "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png";
+                                break;
+                        }
                     }
 
                     listItem.setAuthor(author);
