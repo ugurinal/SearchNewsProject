@@ -50,6 +50,8 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textBoxContextMenuStrip1 = new MaterialSkin.Controls.TextBoxContextMenuStrip();
+            this.backButton = new MaterialSkin.Controls.MaterialButton();
+            this.forwardButton = new MaterialSkin.Controls.MaterialButton();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -358,11 +360,51 @@
             this.textBoxContextMenuStrip1.Name = "textBoxContextMenuStrip1";
             this.textBoxContextMenuStrip1.Size = new System.Drawing.Size(141, 160);
             // 
+            // backButton
+            // 
+            this.backButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.backButton.Depth = 0;
+            this.backButton.DrawShadows = true;
+            this.backButton.HighEmphasis = true;
+            this.backButton.Icon = null;
+            this.backButton.Location = new System.Drawing.Point(1204, 897);
+            this.backButton.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.backButton.MouseState = MaterialSkin.MouseState.HOVER;
+            this.backButton.Name = "backButton";
+            this.backButton.Size = new System.Drawing.Size(36, 36);
+            this.backButton.TabIndex = 17;
+            this.backButton.Text = "  <  ";
+            this.backButton.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.backButton.UseAccentColor = false;
+            this.backButton.UseVisualStyleBackColor = true;
+            this.backButton.Click += new System.EventHandler(this.backButton_Click);
+            // 
+            // forwardButton
+            // 
+            this.forwardButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.forwardButton.Depth = 0;
+            this.forwardButton.DrawShadows = true;
+            this.forwardButton.HighEmphasis = true;
+            this.forwardButton.Icon = null;
+            this.forwardButton.Location = new System.Drawing.Point(1263, 897);
+            this.forwardButton.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.forwardButton.MouseState = MaterialSkin.MouseState.HOVER;
+            this.forwardButton.Name = "forwardButton";
+            this.forwardButton.Size = new System.Drawing.Size(36, 36);
+            this.forwardButton.TabIndex = 18;
+            this.forwardButton.Text = "  >  ";
+            this.forwardButton.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.forwardButton.UseAccentColor = false;
+            this.forwardButton.UseVisualStyleBackColor = true;
+            this.forwardButton.Click += new System.EventHandler(this.forwardButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1920, 1000);
+            this.Controls.Add(this.forwardButton);
+            this.Controls.Add(this.backButton);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.groupBox1);
             this.MinimumSize = new System.Drawing.Size(1600, 900);
@@ -372,6 +414,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -398,6 +441,8 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private MaterialSkin.Controls.TextBoxContextMenuStrip textBoxContextMenuStrip1;
+        private MaterialSkin.Controls.MaterialButton backButton;
+        private MaterialSkin.Controls.MaterialButton forwardButton;
     }
 }
 

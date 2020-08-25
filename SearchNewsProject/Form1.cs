@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
-using System.ServiceModel.Syndication;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -14,7 +13,10 @@ namespace SearchNewsProject
 {
     public partial class Form1 : MaterialForm
     {
+        private List<ListItem> listItems = new List<ListItem>();
         public progressBarForm progressBarForm = new progressBarForm();
+
+        private int buttonCounter = 0;  // a counter that count how many times back and forward button clicked.
 
         public Form1()
         {
@@ -63,6 +65,9 @@ namespace SearchNewsProject
         {
             Font font = new Font("Microsoft Sans Serif", 18, FontStyle.Regular);
             xuiButton1.Font = font;
+
+            backButton.Visible = false;
+            forwardButton.Visible = false;
         }
 
         public void setComboBoxes()
@@ -85,7 +90,7 @@ namespace SearchNewsProject
         {
             flowLayoutPanel1.Controls.Clear();
 
-            progressBarForm.Show();
+            //progressBarForm.Show();
 
             backgroundWorker1.RunWorkerAsync();
 
@@ -104,8 +109,8 @@ namespace SearchNewsProject
             }
             else
             {
-                getCustomNews2();
-                //getCustomNews();
+                progressBarForm.Show();
+                getCustomNews();
             }
         }
 
@@ -136,7 +141,6 @@ namespace SearchNewsProject
                 if (news.getStatus().Equals("Ok"))
                 {
                     List<Article> articles = news.getArticles();
-                    List<ListItem> listItems = new List<ListItem>();
 
                     int counter = 0;
 
@@ -192,8 +196,6 @@ namespace SearchNewsProject
 
                 dynamic jsonObj = bingNews.getBingNews();
 
-                List<ListItem> listItems = new List<ListItem>();
-
                 int counter = 0;
 
                 for (int i = 0; i < searchSize; i++)
@@ -243,6 +245,13 @@ namespace SearchNewsProject
             progressBarForm.closeForm();
 
             UseWaitCursor = false;
+
+            if (listItems.Count > 150)
+            {
+                backButton.Visible = true;
+                backButton.Enabled = false;
+                forwardButton.Visible = true;
+            }
             MessageBox.Show("Background worker done.");
             MessageBox.Show("Flow layout panel count: " + flowLayoutPanel1.Controls.Count);
         }
@@ -287,63 +296,6 @@ namespace SearchNewsProject
 
         private void getCustomNews()
         {
-            string[] url = {
-                "https://www.sabah.com.tr/rss/anasayfa.xml",        // same 0
-                "https://www.sabah.com.tr/rss/sondakika.xml",       // same 0
-                "https://www.takvim.com.tr/rss/anasayfa.xml",       // same 0
-                "https://www.takvim.com.tr/rss/guncel.xml",         // same 0
-                "https://www.fotomac.com.tr/rss/anasayfa.xml",      // same 0
-                "https://rss.haberler.com/rss.asp",                 // same 1
-                "https://www.haber.com/news-rss/",                  // same 1
-                "https://tr.sputniknews.com/export/rss2/archive/index.xml",// same1
-                "http://www.star.com.tr/rss/rss.asp",               // same 1
-                "https://www.ensonhaber.com/rss/mansetler.xml",     // same 2
-                "https://www.ensonhaber.com/rss/ensonhaber.xml",    // same 2
-                "http://www.haberturk.com/rss",                     // same 2
-                "https://www.cnnturk.com/feed/rss/all/news",        // same 3
-                /*"https://www.hurriyet.com.tr/rss/gundem",*/       // same 3
-                "https://www.ntv.com.tr/son-dakika.rss",            // same 4
-                "http://www.mynet.com/haber/rss/sondakika",         // same 5
-                "https://www.cumhuriyet.com.tr/rss",                // same 6
-                "https://www.aa.com.tr/tr/rss/default?cat=guncel"   // same 7
-            };
-
-            List<ListItem> listItems = new List<ListItem>();
-
-            try
-            {
-                for (int i = 0; i < url.Length; i++)
-                {
-                    XmlReader reader = XmlReader.Create(url[i]);
-                    SyndicationFeed feed = SyndicationFeed.Load(reader);
-                    reader.Close();
-
-                    foreach (SyndicationItem item in feed.Items)
-                    {
-                        ListItem listItem = new ListItem();
-                        listItem.setTitle(item.Title.Text);
-                        listItem.setDate(item.PublishDate.ToString());
-                        listItem.setAuthor(feed.Title.Text);
-                        listItem.setContent(item.Summary.Text);
-                        listItem.setLink(item.Links.ElementAt(0).Uri.ToString());
-                        listItem.setImage(item.Links.ElementAt(1).Uri.ToString());
-                        listItems.Add(listItem);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-
-            for (int i = 0; i < listItems.Count; i++)
-            {
-                populeNewsList(listItems, i);
-            }
-        }
-
-        private void getCustomNews2()
-        {
             string[] sourceUrls = {
                 "https://www.sabah.com.tr/rss/anasayfa.xml",        // same 0
                 "https://www.sabah.com.tr/rss/sondakika.xml",       // same 0
@@ -364,8 +316,6 @@ namespace SearchNewsProject
                 "https://www.cumhuriyet.com.tr/rss",                // same 6
                 "https://www.aa.com.tr/tr/rss/default?cat=guncel"   // same 7
             };
-
-            List<ListItem> listItems = new List<ListItem>();
 
             int nodeCounter = 0;
             double progress = 0;
@@ -444,6 +394,10 @@ namespace SearchNewsProject
 
             for (int i = 0; i < listItems.Count; i++)
             {
+                if (i == 150)
+                {
+                    break;
+                }
                 populeNewsList(listItems, i);
             }
 
@@ -468,12 +422,69 @@ namespace SearchNewsProject
                         flowLayoutPanel1.Controls.Add(listItems.ElementAt(current));
                     });
                 }
+                else
+                {
+                    flowLayoutPanel1.Controls.Add(listItems.ElementAt(current));
+                }
             }
         }
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             progressBarForm.updateProgressBar(e.ProgressPercentage);
+        }
+
+        private void forwardButton_Click(object sender, EventArgs e)
+        {
+            int counter = 0;    // for a loop to show exactly 150 news in the flowlayout panel
+            buttonCounter++;
+
+            if ((listItems.Count / (150 * (buttonCounter + 1))) < 1)    // if there are still unlisted news
+            {                                                           // make forward button enable
+                forwardButton.Enabled = false;
+            }
+
+            backButton.Enabled = true;                                  // if forward button clicked
+                                                                        // this means back button must be enabled
+            flowLayoutPanel1.Controls.Clear();
+            flowLayoutPanel1.Refresh();
+
+            for (int i = 150 * buttonCounter; i < listItems.Count; i++)
+            {
+                if (counter == 150)
+                {
+                    break;
+                }
+
+                populeNewsList(listItems, i);
+                counter++;
+            }
+        }
+
+        private void backButton_Click(object sender, EventArgs e)
+        {
+            int counter = 0;
+
+            buttonCounter--;
+
+            forwardButton.Enabled = true;   // if back button cliked this means forward button must be enabled
+
+            if (buttonCounter <= 0)         // if button counter is less or equal to zero(0) disable the back button.
+            {
+                backButton.Enabled = false;
+            }
+
+            flowLayoutPanel1.Controls.Clear();
+            flowLayoutPanel1.Refresh();
+            for (int i = 150 * buttonCounter; i < listItems.Count; i++)
+            {
+                if (counter == 150)
+                {
+                    break;
+                }
+                populeNewsList(listItems, i);
+                counter++;
+            }
         }
     }
 }
