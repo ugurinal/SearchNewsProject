@@ -244,6 +244,7 @@ namespace SearchNewsProject
 
             UseWaitCursor = false;
             MessageBox.Show("Background worker done.");
+            MessageBox.Show("Flow layout panel count: " + flowLayoutPanel1.Controls.Count);
         }
 
         private void sourceComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -448,6 +449,8 @@ namespace SearchNewsProject
 
             progress = 100;
             backgroundWorker1.ReportProgress(Convert.ToInt32(progress));
+
+            MessageBox.Show("ListItem count :" + listItems.Count);
         }
 
         private void populeNewsList(List<ListItem> listItems, int current)
