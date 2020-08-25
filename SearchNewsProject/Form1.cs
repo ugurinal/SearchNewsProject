@@ -25,6 +25,7 @@ namespace SearchNewsProject
             setDateTimePickers();
             setButton();
             setComboBoxes();
+            setLabels(false);
         }
 
         public void setSkin()
@@ -86,9 +87,32 @@ namespace SearchNewsProject
             sortByComboBox.SelectedIndex = 0;
         }
 
+        public void setLabels(bool value)
+        {
+            label1.Visible = value;
+            label2.Visible = value;
+            label3.Visible = value;
+            label4.Visible = value;
+        }
+
+        public void refreshLabels()
+        {
+            int currentFirstResults = 150 * buttonCounter;
+            int currentLastResults = (150 * (buttonCounter + 1));
+
+            if (currentLastResults > listItems.Count)
+            {
+                currentLastResults = listItems.Count;
+            }
+
+            label3.Text = listItems.Count.ToString();
+            label4.Text = "" + currentFirstResults + " - " + currentLastResults;
+        }
+
         private void xuiButton1_Click(object sender, EventArgs e)
         {
             flowLayoutPanel1.Controls.Clear();
+            listItems.Clear();
 
             //progressBarForm.Show();
 
@@ -240,6 +264,8 @@ namespace SearchNewsProject
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            setLabels(true);
+            refreshLabels();
             flowLayoutPanel1.Refresh();
 
             progressBarForm.closeForm();
@@ -459,6 +485,8 @@ namespace SearchNewsProject
                 populeNewsList(listItems, i);
                 counter++;
             }
+
+            refreshLabels();
         }
 
         private void backButton_Click(object sender, EventArgs e)
@@ -485,6 +513,8 @@ namespace SearchNewsProject
                 populeNewsList(listItems, i);
                 counter++;
             }
+
+            refreshLabels();
         }
     }
 }
