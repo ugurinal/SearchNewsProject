@@ -15,3 +15,4 @@ C:\Users\uguri\source\repos\SearchNewsProject\SearchNewsProject\obj\Debug\Search
 C:\Users\uguri\source\repos\SearchNewsProject\SearchNewsProject\obj\Debug\SearchNewsProject.exe
 C:\Users\uguri\source\repos\SearchNewsProject\SearchNewsProject\obj\Debug\SearchNewsProject.pdb
 C:\Users\uguri\source\repos\SearchNewsProject\SearchNewsProject\obj\Debug\SearchNewsProject.ListItem.resources
+C:\Users\uguri\source\repos\SearchNewsProject\SearchNewsProject\obj\Debug\SearchNewsProject.progressBarForm.resources

@@ -14,6 +14,8 @@ namespace SearchNewsProject
 {
     public partial class Form1 : MaterialForm
     {
+        public progressBarForm progressBarForm = new progressBarForm();
+
         public Form1()
         {
             InitializeComponent();
@@ -83,7 +85,11 @@ namespace SearchNewsProject
         {
             flowLayoutPanel1.Controls.Clear();
 
+            progressBarForm.Show();
+
             backgroundWorker1.RunWorkerAsync();
+
+            UseWaitCursor = true;
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -154,7 +160,7 @@ namespace SearchNewsProject
 
                     for (int i = 0; i < listItems.Count; i++)
                     {
-                        populateList(listItems, i);
+                        populeNewsList(listItems, i);
                     }
                 }
                 else
@@ -214,6 +220,7 @@ namespace SearchNewsProject
                     }
                     catch (Exception e)
                     {
+                        MessageBox.Show(e.Message);
                     }
                 }
 
@@ -224,33 +231,18 @@ namespace SearchNewsProject
 
                 for (int i = 0; i < searchSize; i++)
                 {
-                    populateList(listItems, i);
+                    populeNewsList(listItems, i);
                 }
-            }
-        }
-
-        private void populateList(List<ListItem> listItems, int current)
-        {
-            try
-            {
-                if (InvokeRequired && listItems.ElementAt(current) != null)
-                {
-                    BeginInvoke((MethodInvoker)delegate ()
-                    {
-                        flowLayoutPanel1.Controls.Add(listItems.ElementAt(current));
-                    });
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
             }
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             flowLayoutPanel1.Refresh();
-            MessageBox.Show(flowLayoutPanel1.Controls.Count.ToString());
+
+            progressBarForm.closeForm();
+
+            UseWaitCursor = false;
             MessageBox.Show("Background worker done.");
         }
 
@@ -345,7 +337,7 @@ namespace SearchNewsProject
 
             for (int i = 0; i < listItems.Count; i++)
             {
-                populateListNew(listItems, i);
+                populeNewsList(listItems, i);
             }
         }
 
@@ -373,6 +365,22 @@ namespace SearchNewsProject
             };
 
             List<ListItem> listItems = new List<ListItem>();
+
+            int nodeCounter = 0;
+            double progress = 0;
+            /*Find how many item nodes does the rss feed have.
+             * For updating progress bar we have to know how many nodes there are.
+            */
+            for (int i = 0; i < 5; i++)
+            {
+                XmlDocument rssXmlDoc = new XmlDocument();
+
+                rssXmlDoc.Load(sourceUrls[i]);
+
+                XmlNodeList itemNode = rssXmlDoc.SelectNodes("rss/channel/item");
+
+                nodeCounter += itemNode.Count;
+            }
 
             for (int i = 0; i < 5; i++)
             {
@@ -424,16 +432,25 @@ namespace SearchNewsProject
                     listItem.setLink(link);
                     listItem.setTitle(title);
                     listItems.Add(listItem);
+
+                    if (progress < 99)
+                    {
+                        progress += (100.0 / nodeCounter);
+                        backgroundWorker1.ReportProgress(Convert.ToInt32(progress));
+                    }
                 }
             }
 
             for (int i = 0; i < listItems.Count; i++)
             {
-                populateListNew(listItems, i);
+                populeNewsList(listItems, i);
             }
+
+            progress = 100;
+            backgroundWorker1.ReportProgress(Convert.ToInt32(progress));
         }
 
-        private void populateListNew(List<ListItem> listItems, int current)
+        private void populeNewsList(List<ListItem> listItems, int current)
         {
             if (flowLayoutPanel1.Controls.Count < 0)
             {
@@ -449,6 +466,11 @@ namespace SearchNewsProject
                     });
                 }
             }
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            progressBarForm.updateProgressBar(e.ProgressPercentage);
         }
     }
 }

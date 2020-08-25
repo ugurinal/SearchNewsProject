@@ -332,12 +332,15 @@
             this.flowLayoutPanel1.Location = new System.Drawing.Point(637, 102);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1271, 886);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1271, 772);
             this.flowLayoutPanel1.TabIndex = 16;
             // 
             // backgroundWorker1
             // 
+            this.backgroundWorker1.WorkerReportsProgress = true;
+            this.backgroundWorker1.WorkerSupportsCancellation = true;
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
             // testToolStripMenuItem
