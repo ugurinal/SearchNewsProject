@@ -68,7 +68,7 @@ namespace SearchNewsProject
             xuiButton1.Font = font;
 
             backButton.Visible = false;
-            forwardButton.Visible = false;
+            nextButton.Visible = false;
         }
 
         public void setComboBoxes()
@@ -276,7 +276,7 @@ namespace SearchNewsProject
             {
                 backButton.Visible = true;
                 backButton.Enabled = false;
-                forwardButton.Visible = true;
+                nextButton.Visible = true;
             }
         }
 
@@ -501,14 +501,14 @@ namespace SearchNewsProject
             progressBarForm.updateProgressBar(e.ProgressPercentage);
         }
 
-        private void forwardButton_Click(object sender, EventArgs e)
+        private void nextButton_Click(object sender, EventArgs e)
         {
             int counter = 0;    // for a loop to show exactly 150 news in the flowlayout panel
             buttonCounter++;
 
             if ((listItems.Count / (150 * (buttonCounter + 1))) < 1)    // if there are still unlisted news
             {                                                           // make forward button enable
-                forwardButton.Enabled = false;
+                nextButton.Enabled = false;
             }
 
             backButton.Enabled = true;                                  // if forward button clicked
@@ -536,7 +536,7 @@ namespace SearchNewsProject
 
             buttonCounter--;
 
-            forwardButton.Enabled = true;   // if back button cliked this means forward button must be enabled
+            nextButton.Enabled = true;   // if back button cliked this means forward button must be enabled
 
             if (buttonCounter <= 0)         // if button counter is less or equal to zero(0) disable the back button.
             {

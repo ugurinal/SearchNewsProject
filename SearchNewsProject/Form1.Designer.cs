@@ -51,7 +51,7 @@
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textBoxContextMenuStrip1 = new MaterialSkin.Controls.TextBoxContextMenuStrip();
             this.backButton = new MaterialSkin.Controls.MaterialButton();
-            this.forwardButton = new MaterialSkin.Controls.MaterialButton();
+            this.nextButton = new MaterialSkin.Controls.MaterialButton();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -375,32 +375,32 @@
             this.backButton.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.backButton.MouseState = MaterialSkin.MouseState.HOVER;
             this.backButton.Name = "backButton";
-            this.backButton.Size = new System.Drawing.Size(36, 36);
+            this.backButton.Size = new System.Drawing.Size(59, 36);
             this.backButton.TabIndex = 17;
-            this.backButton.Text = "  <  ";
+            this.backButton.Text = "BACK";
             this.backButton.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.backButton.UseAccentColor = false;
             this.backButton.UseVisualStyleBackColor = true;
             this.backButton.Click += new System.EventHandler(this.backButton_Click);
             // 
-            // forwardButton
+            // nextButton
             // 
-            this.forwardButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.forwardButton.Depth = 0;
-            this.forwardButton.DrawShadows = true;
-            this.forwardButton.HighEmphasis = true;
-            this.forwardButton.Icon = null;
-            this.forwardButton.Location = new System.Drawing.Point(1263, 897);
-            this.forwardButton.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.forwardButton.MouseState = MaterialSkin.MouseState.HOVER;
-            this.forwardButton.Name = "forwardButton";
-            this.forwardButton.Size = new System.Drawing.Size(36, 36);
-            this.forwardButton.TabIndex = 18;
-            this.forwardButton.Text = "  >  ";
-            this.forwardButton.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.forwardButton.UseAccentColor = false;
-            this.forwardButton.UseVisualStyleBackColor = true;
-            this.forwardButton.Click += new System.EventHandler(this.forwardButton_Click);
+            this.nextButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.nextButton.Depth = 0;
+            this.nextButton.DrawShadows = true;
+            this.nextButton.HighEmphasis = true;
+            this.nextButton.Icon = null;
+            this.nextButton.Location = new System.Drawing.Point(1295, 897);
+            this.nextButton.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.nextButton.MouseState = MaterialSkin.MouseState.HOVER;
+            this.nextButton.Name = "nextButton";
+            this.nextButton.Size = new System.Drawing.Size(58, 36);
+            this.nextButton.TabIndex = 18;
+            this.nextButton.Text = "NEXT";
+            this.nextButton.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.nextButton.UseAccentColor = false;
+            this.nextButton.UseVisualStyleBackColor = true;
+            this.nextButton.Click += new System.EventHandler(this.nextButton_Click);
             // 
             // label1
             // 
@@ -451,7 +451,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.forwardButton);
+            this.Controls.Add(this.nextButton);
             this.Controls.Add(this.backButton);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.groupBox1);
@@ -490,7 +490,7 @@
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private MaterialSkin.Controls.TextBoxContextMenuStrip textBoxContextMenuStrip1;
         private MaterialSkin.Controls.MaterialButton backButton;
-        private MaterialSkin.Controls.MaterialButton forwardButton;
+        private MaterialSkin.Controls.MaterialButton nextButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
