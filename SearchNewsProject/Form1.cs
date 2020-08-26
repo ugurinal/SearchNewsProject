@@ -334,11 +334,10 @@ namespace SearchNewsProject
                 "https://www.ensonhaber.com/rss/ensonhaber.xml",    // same 2
                 "http://www.haberturk.com/rss",                     // same 2
                 "https://www.cnnturk.com/feed/rss/all/news",        // same 3
-                /*"https://www.hurriyet.com.tr/rss/gundem",*/       // same 3
-                "https://www.ntv.com.tr/son-dakika.rss",            // same 4
-                "http://www.mynet.com/haber/rss/sondakika",         // same 5
-                "https://www.cumhuriyet.com.tr/rss",                // same 6
-                "https://www.aa.com.tr/tr/rss/default?cat=guncel"   // same 7
+                "https://www.aa.com.tr/tr/rss/default?cat=guncel",   // same 3
+                "http://www.mynet.com/haber/rss/sondakika",         // same 4
+                "https://www.cumhuriyet.com.tr/rss",                // same 5
+                "http://feeds.bbci.co.uk/turkce/rss.xml"
             };
 
             int nodeCounter = 0;
@@ -346,7 +345,7 @@ namespace SearchNewsProject
             /*Find how many item nodes does the rss feed have.
              * For updating progress bar we have to know how many nodes there are.
             */
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < sourceUrls.Length; i++)
             {
                 XmlDocument rssXmlDoc = new XmlDocument();
 
@@ -357,7 +356,7 @@ namespace SearchNewsProject
                 nodeCounter += itemNode.Count;
             }
 
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < sourceUrls.Length; i++)
             {
                 XmlDocument rssXmlDoc = new XmlDocument();
 
@@ -392,10 +391,30 @@ namespace SearchNewsProject
                     {
                         description = singleNode.SelectSingleNode("description").InnerText;
                     }
+                    else if (i >= 9 && i <= 11)
+                    {
+                        int startIndex = 0, lastIndex = 0;
+
+                        startIndex = singleNode.SelectSingleNode("description").InnerText.IndexOf("</a>") + 4;
+                        lastIndex = singleNode.SelectSingleNode("description").InnerText.Length;
+                        description = singleNode.SelectSingleNode("description").InnerText.Substring(startIndex, (lastIndex - startIndex));
+                    }
+                    else if (i >= 12 && i <= 16)
+                    {
+                        description = singleNode.SelectSingleNode("description").InnerText;
+                    }
 
                     if (singleNode.SelectSingleNode("enclosure") != null)
                     {
                         imgLink = singleNode.SelectSingleNode("enclosure").Attributes["url"].Value;
+                    }
+                    else if (singleNode.SelectSingleNode("image") != null)
+                    {
+                        imgLink = singleNode.SelectSingleNode("image").InnerText;
+                    }
+                    else if (singleNode.SelectSingleNode("ipimage") != null)
+                    {
+                        imgLink = singleNode.SelectSingleNode("ipimage").InnerText;
                     }
                     else
                     {
@@ -435,6 +454,38 @@ namespace SearchNewsProject
 
                             case 8:
                                 imgLink = "https://www.turkmedya.com.tr/assets/img/logo/logo_star.png?v=1.0";
+                                break;
+
+                            case 9:
+                                imgLink = "https://icdn.ensonhaber.com/cdn/desktop/img/logo.png";
+                                break;
+
+                            case 10:
+                                imgLink = "https://icdn.ensonhaber.com/cdn/desktop/img/logo.png";
+                                break;
+
+                            case 11:
+                                imgLink = "https://im.haberturk.com/assets/images/logo/haberturk-logo-v1.svg";
+                                break;
+
+                            case 12:
+                                imgLink = "https://pbs.twimg.com/profile_images/879963335898406916/jU6vr8mb_400x400.jpg";
+                                break;
+
+                            case 13:
+                                imgLink = "https://cdnassets.aa.com.tr/assets/newVersion/images/logo1_b_yan_100.png";
+                                break;
+
+                            case 14:
+                                imgLink = "https://img7.mynet.com/mynet-logo.png";
+                                break;
+
+                            case 15:
+                                imgLink = "https://pbs.twimg.com/profile_images/1192128310119215104/gb55ML1j_400x400.jpg";
+                                break;
+
+                            case 16:
+                                imgLink = "https://upload.wikimedia.org/wikipedia/en/thumb/f/ff/BBC_News.svg/1200px-BBC_News.svg.png";
                                 break;
 
                             default:
@@ -518,7 +569,7 @@ namespace SearchNewsProject
 
             for (int i = 150 * buttonCounter; i < listItems.Count; i++)
             {
-                if (counter == 150)
+                if (counter >= 150)
                 {
                     break;
                 }
@@ -527,6 +578,7 @@ namespace SearchNewsProject
                 counter++;
             }
 
+            flowLayoutPanel1.Refresh();
             refreshLabels();
         }
 
