@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace SearchNewsProject
 {
@@ -12,37 +11,12 @@ namespace SearchNewsProject
 
         private string link;    // link for title
 
-        public void setTitle(string title)
-        {
-            labelTitle.Text = title;
-        }
-
-        public void setLink(string link)
-        {
-            this.link = link;
-        }
-
-        public void setContent(string content)
-        {
-            labelContent.Text = content;
-        }
-
-        public void setImage(string link)
-        {
-            pictureBox1.ImageLocation = link;
-        }
-
-        public void setAuthor(string author)
-        {
-            labelAuthor.Text = author;
-        }
-
-        public void setDate(string date)
-        {
-            labelDate.BackColor = Color.Transparent;
-            labelDate.Text = date;
-            
-        }
+        public string Link { get => link; set => link = value; }
+        public string Content { get => labelContent.Text; set => labelContent.Text = value; }
+        public string Image { get => pictureBox1.ImageLocation; set => pictureBox1.ImageLocation = value; }
+        public string Author { get => labelAuthor.Text; set => labelAuthor.Text = value; }
+        public string Date { get => labelDate.Text; set => labelDate.Text = value; }
+        public string Title { get => labelTitle.Text; set => labelTitle.Text = value; }
 
         private void labelTitle_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {

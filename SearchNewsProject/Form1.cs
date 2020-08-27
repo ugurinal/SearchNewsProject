@@ -13,7 +13,7 @@ namespace SearchNewsProject
 {
     public partial class Form1 : MaterialForm
     {
-        private List<ListItem> listItems = new List<ListItem>();
+        public List<ListItem> listItems = new List<ListItem>();
         public progressBarForm progressBarForm = new progressBarForm();
 
         private int buttonCounter = 0;  // a counter that count how many times back and forward button clicked.
@@ -176,12 +176,12 @@ namespace SearchNewsProject
                         }
 
                         ListItem temp = new ListItem();
-                        temp.setTitle(newsResult.Title);
-                        temp.setContent(newsResult.Description);
-                        temp.setAuthor(newsResult.Author);
-                        temp.setImage(newsResult.UrlToImage);
-                        temp.setLink(newsResult.Url);
-                        temp.setDate(newsResult.PublishedAt.Value.ToString("dd/MM/yyyy HH:mm"));
+                        temp.Title = newsResult.Title;
+                        temp.Content = newsResult.Description;
+                        temp.Author = newsResult.Author;
+                        temp.Image = newsResult.UrlToImage;
+                        temp.Link = newsResult.Url;
+                        temp.Date = newsResult.PublishedAt.Value.ToString("dd/MM/yyyy HH:mm");
                         listItems.Add(temp);
                         counter++;
                     }
@@ -235,12 +235,12 @@ namespace SearchNewsProject
 
                         ListItem temp = new ListItem();
 
-                        temp.setTitle(title);
-                        temp.setContent(content);
-                        temp.setAuthor(author);
-                        temp.setImage(imgLink);
-                        temp.setLink(url);
-                        temp.setDate(publishedAt);
+                        temp.Title = title;
+                        temp.Content = content;
+                        temp.Author = author;
+                        temp.Image = imgLink;
+                        temp.Link = url;
+                        temp.Date = publishedAt;
                         listItems.Add(temp);
                         counter++;
                     }
@@ -278,6 +278,11 @@ namespace SearchNewsProject
                 backButton.Enabled = false;
                 nextButton.Visible = true;
             }
+            Classify classify = new Classify(listItems);
+
+            classify.categorise();
+
+            MessageBox.Show(classify.getEcoList().ElementAt(0).Content);
         }
 
         private void sourceComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -494,12 +499,12 @@ namespace SearchNewsProject
                         }
                     }
 
-                    listItem.setAuthor(author);
-                    listItem.setContent(description);
-                    listItem.setDate(pubDate);
-                    listItem.setImage(imgLink);
-                    listItem.setLink(link);
-                    listItem.setTitle(title);
+                    listItem.Author = author;
+                    listItem.Content = description;
+                    listItem.Date = pubDate;
+                    listItem.Image = imgLink;
+                    listItem.Link = link;
+                    listItem.Title = title;
                     listItems.Add(listItem);
 
                     if (progress < 99)
