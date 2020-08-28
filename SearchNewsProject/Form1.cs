@@ -15,6 +15,7 @@ namespace SearchNewsProject
     {
         public List<ListItem> listItems = new List<ListItem>();
         public progressBarForm progressBarForm = new progressBarForm();
+        public Classify classify = new Classify();
 
         private int buttonCounter = 0;  // a counter that count how many times back and forward button clicked.
 
@@ -84,6 +85,18 @@ namespace SearchNewsProject
             languageComboBox.Items.Add("Russian");
             languageComboBox.SelectedIndex = 0;
 
+            topicComboBox.Enabled = false;
+            topicComboBox.Visible = false;
+            topicComboBox.Items.Add("All");
+            topicComboBox.Items.Add("Gündem");
+            topicComboBox.Items.Add("Eğitim");
+            topicComboBox.Items.Add("Ekonomi");
+            topicComboBox.Items.Add("Dünya");
+            topicComboBox.Items.Add("Spor");
+            topicComboBox.Items.Add("Sağlık");
+            topicComboBox.Items.Add("Teknoloji");
+            topicComboBox.SelectedIndex = 0;
+
             sortByComboBox.SelectedIndex = 0;
         }
 
@@ -95,17 +108,17 @@ namespace SearchNewsProject
             label4.Visible = value;
         }
 
-        public void refreshLabels()
+        public void refreshLabels(List<ListItem> list)
         {
             int currentFirstResults = 150 * buttonCounter;
             int currentLastResults = (150 * (buttonCounter + 1));
 
-            if (currentLastResults > listItems.Count)
+            if (currentLastResults > list.Count)
             {
-                currentLastResults = listItems.Count;
+                currentLastResults = list.Count;
             }
 
-            label3.Text = listItems.Count.ToString();
+            label3.Text = list.Count.ToString();
             label4.Text = "" + currentFirstResults + " - " + currentLastResults;
         }
 
@@ -188,7 +201,7 @@ namespace SearchNewsProject
 
                     for (int i = 0; i < listItems.Count; i++)
                     {
-                        populeNewsList(listItems, i);
+                        populateNewsList(listItems, i);
                     }
                 }
                 else
@@ -257,7 +270,7 @@ namespace SearchNewsProject
 
                 for (int i = 0; i < searchSize; i++)
                 {
-                    populeNewsList(listItems, i);
+                    populateNewsList(listItems, i);
                 }
             }
         }
@@ -265,12 +278,15 @@ namespace SearchNewsProject
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             setLabels(true);
-            refreshLabels();
+            refreshLabels(listItems);
             flowLayoutPanel1.Refresh();
 
             progressBarForm.closeForm();
 
             UseWaitCursor = false;
+
+            classify.setMainList(listItems);
+            classify.categorise();
 
             if (listItems.Count > 150)
             {
@@ -278,11 +294,9 @@ namespace SearchNewsProject
                 backButton.Enabled = false;
                 nextButton.Visible = true;
             }
-            Classify classify = new Classify(listItems);
 
-            classify.categorise();
-
-            MessageBox.Show(classify.getEcoList().ElementAt(0).Content);
+            topicComboBox.Enabled = true;
+            topicComboBox.Visible = true;
         }
 
         private void sourceComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -521,7 +535,7 @@ namespace SearchNewsProject
                 {
                     break;
                 }
-                populeNewsList(listItems, i);
+                populateNewsList(listItems, i);
             }
 
             progress = 100;
@@ -530,7 +544,7 @@ namespace SearchNewsProject
             MessageBox.Show("ListItem count :" + listItems.Count);
         }
 
-        private void populeNewsList(List<ListItem> listItems, int current)
+        private void populateNewsList(List<ListItem> listItems, int current)
         {
             if (flowLayoutPanel1.Controls.Count < 0)
             {
@@ -559,60 +573,355 @@ namespace SearchNewsProject
 
         private void nextButton_Click(object sender, EventArgs e)
         {
-            int counter = 0;    // for a loop to show exactly 150 news in the flowlayout panel
             buttonCounter++;
+            backAndNextButton(topicComboBox.SelectedIndex);
 
-            if ((listItems.Count / (150 * (buttonCounter + 1))) < 1)    // if there are still unlisted news
-            {                                                           // make forward button enable
-                nextButton.Enabled = false;
-            }
-
-            backButton.Enabled = true;                                  // if forward button clicked
-                                                                        // this means back button must be enabled
-            flowLayoutPanel1.Controls.Clear();
-            flowLayoutPanel1.Refresh();
-
-            for (int i = 150 * buttonCounter; i < listItems.Count; i++)
-            {
-                if (counter >= 150)
-                {
-                    break;
-                }
-
-                populeNewsList(listItems, i);
-                counter++;
-            }
-
-            flowLayoutPanel1.Refresh();
-            refreshLabels();
+            backButton.Enabled = true;
         }
 
         private void backButton_Click(object sender, EventArgs e)
         {
-            int counter = 0;
-
             buttonCounter--;
+            backAndNextButton(topicComboBox.SelectedIndex);
 
-            nextButton.Enabled = true;   // if back button cliked this means forward button must be enabled
+            nextButton.Enabled = true;
+        }
+
+        private void topicComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int index = topicComboBox.SelectedIndex;
+
+            flowLayoutPanel1.Controls.Clear();
+            buttonCounter = 0;
+
+            switch (index)
+            {
+                case 0:
+                    populateNewsList(listItems);        // main list
+                    if (listItems.Count > 150)
+                    {
+                        backButton.Visible = true;
+                        backButton.Enabled = false;
+                        nextButton.Visible = true;
+                        nextButton.Enabled = true;
+                    }
+                    break;
+
+                case 1:
+                    populateNewsList(classify.getGundemList());
+                    if (classify.getGundemList().Count > 150)
+                    {
+                        backButton.Visible = true;
+                        backButton.Enabled = false;
+                        nextButton.Visible = true;
+                        nextButton.Enabled = true;
+                    }
+                    else
+                    {
+                        backButton.Visible = false;
+                        backButton.Enabled = false;
+                        nextButton.Visible = false;
+                        nextButton.Enabled = false;
+                    }
+
+                    break;
+
+                case 2:
+                    populateNewsList(classify.getEduList());
+                    if (classify.getEduList().Count > 150)
+                    {
+                        backButton.Visible = true;
+                        backButton.Enabled = false;
+                        nextButton.Visible = true;
+                        nextButton.Enabled = true;
+                    }
+                    else
+                    {
+                        backButton.Visible = false;
+                        backButton.Enabled = false;
+                        nextButton.Visible = false;
+                        nextButton.Enabled = false;
+                    }
+                    break;
+
+                case 3:
+                    populateNewsList(classify.getEcoList());
+                    if (classify.getEcoList().Count > 150)
+                    {
+                        backButton.Visible = true;
+                        backButton.Enabled = false;
+                        nextButton.Visible = true;
+                        nextButton.Enabled = true;
+                    }
+                    else
+                    {
+                        backButton.Visible = false;
+                        backButton.Enabled = false;
+                        nextButton.Visible = false;
+                        nextButton.Enabled = false;
+                    }
+                    break;
+
+                case 4:
+                    populateNewsList(classify.getWorldList());
+                    if (classify.getWorldList().Count > 150)
+                    {
+                        backButton.Visible = true;
+                        backButton.Enabled = false;
+                        nextButton.Visible = true;
+                        nextButton.Enabled = true;
+                    }
+                    else
+                    {
+                        backButton.Visible = false;
+                        backButton.Enabled = false;
+                        nextButton.Visible = false;
+                        nextButton.Enabled = false;
+                    }
+                    break;
+
+                case 5:
+                    populateNewsList(classify.getSportList());
+                    if (classify.getSportList().Count > 150)
+                    {
+                        backButton.Visible = true;
+                        backButton.Enabled = false;
+                        nextButton.Visible = true;
+                        nextButton.Enabled = true;
+                    }
+                    else
+                    {
+                        backButton.Visible = false;
+                        backButton.Enabled = false;
+                        nextButton.Visible = false;
+                        nextButton.Enabled = false;
+                    }
+                    break;
+
+                case 6:
+                    populateNewsList(classify.getHealthList());
+                    if (classify.getHealthList().Count > 150)
+                    {
+                        backButton.Visible = true;
+                        backButton.Enabled = false;
+                        nextButton.Visible = true;
+                        nextButton.Enabled = true;
+                    }
+                    else
+                    {
+                        backButton.Visible = false;
+                        backButton.Enabled = false;
+                        nextButton.Visible = false;
+                        nextButton.Enabled = false;
+                    }
+                    break;
+
+                case 7:
+                    populateNewsList(classify.getTechList());
+                    if (classify.getTechList().Count > 150)
+                    {
+                        backButton.Visible = true;
+                        backButton.Enabled = false;
+                        nextButton.Visible = true;
+                        nextButton.Enabled = true;
+                    }
+                    else
+                    {
+                        backButton.Visible = false;
+                        backButton.Enabled = false;
+                        nextButton.Visible = false;
+                        nextButton.Enabled = false;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private void populateNewsList(List<ListItem> list)
+        {
+            refreshLabels(list);
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (i == 150)
+                {
+                    break;
+                }
+                populateNewsList(list, i);
+            }
+        }
+
+        private void backAndNextButton(int index)
+        {
+            int counter = 0;    // for a loop to show exactly 150 news in the flowlayout panel
 
             if (buttonCounter <= 0)         // if button counter is less or equal to zero(0) disable the back button.
             {
                 backButton.Enabled = false;
             }
 
+            // if forward button clicked
+            // this means back button must be enabled
             flowLayoutPanel1.Controls.Clear();
             flowLayoutPanel1.Refresh();
-            for (int i = 150 * buttonCounter; i < listItems.Count; i++)
-            {
-                if (counter == 150)
-                {
-                    break;
-                }
-                populeNewsList(listItems, i);
-                counter++;
-            }
 
-            refreshLabels();
+            switch (index)
+            {
+                case 0:
+                    refreshLabels(listItems);
+                    if ((listItems.Count / (150 * (buttonCounter + 1))) < 1)    // if there are still unlisted news
+                    {                                                           // make forward button enable
+                        nextButton.Enabled = false;
+                    }
+
+                    for (int i = 150 * buttonCounter; i < listItems.Count; i++)
+                    {
+                        if (counter >= 150)
+                        {
+                            break;
+                        }
+
+                        populateNewsList(listItems, i);
+                        counter++;
+                    }
+                    flowLayoutPanel1.Refresh();
+                    break;
+
+                case 1:
+                    refreshLabels(classify.getGundemList());
+                    if ((classify.getGundemList().Count / (150 * (buttonCounter + 1))) < 1)    // if there are still unlisted news
+                    {                                                           // make forward button enable
+                        nextButton.Enabled = false;
+                    }
+                    for (int i = 150 * buttonCounter; i < classify.getGundemList().Count; i++)
+                    {
+                        if (counter >= 150)
+                        {
+                            break;
+                        }
+
+                        populateNewsList(classify.getGundemList(), i);
+                        counter++;
+                    }
+                    flowLayoutPanel1.Refresh();
+                    break;
+
+                case 2:
+                    refreshLabels(classify.getEduList());
+                    if ((classify.getEduList().Count / (150 * (buttonCounter + 1))) < 1)    // if there are still unlisted news
+                    {                                                           // make forward button enable
+                        nextButton.Enabled = false;
+                    }
+                    for (int i = 150 * buttonCounter; i < classify.getEduList().Count; i++)
+                    {
+                        if (counter >= 150)
+                        {
+                            break;
+                        }
+
+                        populateNewsList(classify.getEduList(), i);
+                        counter++;
+                    }
+                    flowLayoutPanel1.Refresh();
+                    break;
+
+                case 3:
+                    refreshLabels(classify.getEcoList());
+                    if ((classify.getEcoList().Count / (150 * (buttonCounter + 1))) < 1)    // if there are still unlisted news
+                    {                                                           // make forward button enable
+                        nextButton.Enabled = false;
+                    }
+                    for (int i = 150 * buttonCounter; i < classify.getEcoList().Count; i++)
+                    {
+                        if (counter >= 150)
+                        {
+                            break;
+                        }
+
+                        populateNewsList(classify.getEcoList(), i);
+                        counter++;
+                    }
+                    flowLayoutPanel1.Refresh();
+                    break;
+
+                case 4:
+                    refreshLabels(classify.getWorldList());
+                    if ((classify.getWorldList().Count / (150 * (buttonCounter + 1))) < 1)    // if there are still unlisted news
+                    {                                                           // make forward button enable
+                        nextButton.Enabled = false;
+                    }
+                    for (int i = 150 * buttonCounter; i < classify.getWorldList().Count; i++)
+                    {
+                        if (counter >= 150)
+                        {
+                            break;
+                        }
+
+                        populateNewsList(classify.getWorldList(), i);
+                        counter++;
+                    }
+                    flowLayoutPanel1.Refresh();
+                    break;
+
+                case 5:
+                    refreshLabels(classify.getSportList());
+                    if ((classify.getSportList().Count / (150 * (buttonCounter + 1))) < 1)    // if there are still unlisted news
+                    {                                                           // make forward button enable
+                        nextButton.Enabled = false;
+                    }
+                    for (int i = 150 * buttonCounter; i < classify.getSportList().Count; i++)
+                    {
+                        if (counter >= 150)
+                        {
+                            break;
+                        }
+
+                        populateNewsList(classify.getSportList(), i);
+                        counter++;
+                    }
+                    flowLayoutPanel1.Refresh();
+                    break;
+
+                case 6:
+                    refreshLabels(classify.getHealthList());
+                    if ((classify.getHealthList().Count / (150 * (buttonCounter + 1))) < 1)    // if there are still unlisted news
+                    {                                                           // make forward button enable
+                        nextButton.Enabled = false;
+                    }
+                    for (int i = 150 * buttonCounter; i < classify.getHealthList().Count; i++)
+                    {
+                        if (counter >= 150)
+                        {
+                            break;
+                        }
+
+                        populateNewsList(classify.getHealthList(), i);
+                        counter++;
+                    }
+                    flowLayoutPanel1.Refresh();
+                    break;
+
+                case 7:
+                    refreshLabels(classify.getTechList());
+                    if ((classify.getTechList().Count / (150 * (buttonCounter + 1))) < 1)    // if there are still unlisted news
+                    {                                                           // make forward button enable
+                        nextButton.Enabled = false;
+                    }
+                    for (int i = 150 * buttonCounter; i < classify.getTechList().Count; i++)
+                    {
+                        if (counter >= 150)
+                        {
+                            break;
+                        }
+
+                        populateNewsList(classify.getTechList(), i);
+                        counter++;
+                    }
+                    flowLayoutPanel1.Refresh();
+                    break;
+            }
         }
     }
 }

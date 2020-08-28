@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace SearchNewsProject
 {
@@ -14,9 +15,13 @@ namespace SearchNewsProject
         private List<ListItem> healthList = new List<ListItem>();
         private List<ListItem> techList = new List<ListItem>();
 
-        public Classify(List<ListItem> list)
+        public Classify()
         {
-            mainList = list;
+        }
+
+        public void setMainList(List<ListItem> mainList)
+        {
+            this.mainList = mainList;
         }
 
         public void categorise()
@@ -140,18 +145,27 @@ namespace SearchNewsProject
                 healthCounter = refreshCounter(content, healthKeysTR);
                 techCounter = refreshCounter(content, techKeysTR);
 
+               
+
                 result = findMax(gundemCounter, eduCounter, ecoCounter, worldCounter, sportCounter, healthCounter, techCounter);
+
+                
 
                 if (result == gundemCounter)
                 {
+                   
                     gundemList.Add(mainList.ElementAt(i));
                 }
                 if (result == eduCounter)
                 {
+                    
+
                     educationList.Add(mainList.ElementAt(i));
                 }
                 if (result == ecoCounter)
                 {
+                    
+
                     economyList.Add(mainList.ElementAt(i));
                 }
                 if (result == worldCounter)

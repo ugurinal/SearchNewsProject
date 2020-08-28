@@ -56,6 +56,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.topicComboBox = new MaterialSkin.Controls.MaterialComboBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -335,10 +336,10 @@
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.AutoScroll = true;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(637, 102);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(637, 149);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1271, 772);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1271, 725);
             this.flowLayoutPanel1.TabIndex = 16;
             // 
             // backgroundWorker1
@@ -442,11 +443,34 @@
             this.label4.TabIndex = 22;
             this.label4.Text = "1 - 150";
             // 
+            // topicComboBox
+            // 
+            this.topicComboBox.AutoResize = false;
+            this.topicComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.topicComboBox.Depth = 0;
+            this.topicComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.topicComboBox.DropDownHeight = 174;
+            this.topicComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.topicComboBox.DropDownWidth = 121;
+            this.topicComboBox.Font = new System.Drawing.Font("Roboto Medium", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.topicComboBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.topicComboBox.FormattingEnabled = true;
+            this.topicComboBox.IntegralHeight = false;
+            this.topicComboBox.ItemHeight = 43;
+            this.topicComboBox.Location = new System.Drawing.Point(1634, 90);
+            this.topicComboBox.MaxDropDownItems = 4;
+            this.topicComboBox.MouseState = MaterialSkin.MouseState.OUT;
+            this.topicComboBox.Name = "topicComboBox";
+            this.topicComboBox.Size = new System.Drawing.Size(274, 49);
+            this.topicComboBox.TabIndex = 23;
+            this.topicComboBox.SelectedIndexChanged += new System.EventHandler(this.topicComboBox_SelectedIndexChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1920, 1000);
+            this.Controls.Add(this.topicComboBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -495,6 +519,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private MaterialSkin.Controls.MaterialComboBox topicComboBox;
     }
 }
 
