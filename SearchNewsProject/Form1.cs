@@ -124,9 +124,15 @@ namespace SearchNewsProject
 
         private void xuiButton1_Click(object sender, EventArgs e)
         {
-
-            setLabels(false);
-
+            if (backButton.Visible)
+            {
+                setLabels(false);
+                backButton.Visible = false;
+                nextButton.Visible = false;
+                topicComboBox.Visible = false;
+                buttonCounter = 0;
+                topicComboBox.SelectedIndex = 0;
+            }
 
             flowLayoutPanel1.Controls.Clear();
 
@@ -139,6 +145,10 @@ namespace SearchNewsProject
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
+            flowLayoutPanel1.Controls.Clear();
+            flowLayoutPanel1.Refresh();
+            listItems.Clear();
+
             if (sourceComboBox.SelectedIndex == 0)
             {
                 searchByBingAPI();
@@ -379,7 +389,6 @@ namespace SearchNewsProject
 
                 progress += (100.0 / sourceUrls.Length);
                 backgroundWorker1.ReportProgress(Convert.ToInt32(progress));
-
             }
 
             for (int i = 0; i < xmlDocuments.Count; i++)
@@ -527,14 +536,6 @@ namespace SearchNewsProject
                     listItem.Link = link;
                     listItem.Title = title;
                     listItems.Add(listItem);
-
-                    /*
-                    if (progress < 99)
-                    {
-                        progress += (100.0 / nodeCounter);
-                        backgroundWorker1.ReportProgress(Convert.ToInt32(progress));
-                    }
-                    */
                 }
             }
 
