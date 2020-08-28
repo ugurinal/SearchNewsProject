@@ -124,6 +124,10 @@ namespace SearchNewsProject
 
         private void xuiButton1_Click(object sender, EventArgs e)
         {
+
+            setLabels(false);
+
+
             flowLayoutPanel1.Controls.Clear();
 
             listItems.Clear();
@@ -353,8 +357,11 @@ namespace SearchNewsProject
                 "http://feeds.bbci.co.uk/turkce/rss.xml"
             };
 
+            List<XmlDocument> xmlDocuments = new List<XmlDocument>();
+
             int nodeCounter = 0;
             double progress = 0;
+
             /*Find how many item nodes does the rss feed have.
              * For updating progress bar we have to know how many nodes there are.
             */
@@ -364,16 +371,22 @@ namespace SearchNewsProject
 
                 rssXmlDoc.Load(sourceUrls[i]);
 
+                xmlDocuments.Add(rssXmlDoc);
+
                 XmlNodeList itemNode = rssXmlDoc.SelectNodes("rss/channel/item");
 
                 nodeCounter += itemNode.Count;
+
+                progress += (100.0 / sourceUrls.Length);
+                backgroundWorker1.ReportProgress(Convert.ToInt32(progress));
+
             }
 
-            for (int i = 0; i < sourceUrls.Length; i++)
+            for (int i = 0; i < xmlDocuments.Count; i++)
             {
                 XmlDocument rssXmlDoc = new XmlDocument();
 
-                rssXmlDoc.Load(sourceUrls[i]);
+                rssXmlDoc = xmlDocuments.ElementAt(i);
 
                 XmlNodeList channelNode = rssXmlDoc.SelectNodes("rss/channel");
                 XmlNodeList itemNode = rssXmlDoc.SelectNodes("rss/channel/item");
@@ -515,11 +528,13 @@ namespace SearchNewsProject
                     listItem.Title = title;
                     listItems.Add(listItem);
 
+                    /*
                     if (progress < 99)
                     {
                         progress += (100.0 / nodeCounter);
                         backgroundWorker1.ReportProgress(Convert.ToInt32(progress));
                     }
+                    */
                 }
             }
 
@@ -647,6 +662,7 @@ namespace SearchNewsProject
             {
                 backButton.Enabled = false;
             }
+
             flowLayoutPanel1.Controls.Clear();
             flowLayoutPanel1.Refresh();
 
