@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 
 namespace SearchNewsProject
 {
@@ -83,7 +82,7 @@ namespace SearchNewsProject
             };
 
             string[] techKeysTR = {
-                "teknoloji","samsung","apple","telefon","bilgisayar","televizyon","tablet","ios",
+                "teknoloji","samsung","apple","bilgisayar","televizyon","tablet","ios",
                 "android","huawei","xiaomi","beta","youtube","oyun","playstation","ps4","ps5","xbox",
                 "nintendo","konsol","facebook","instagram","twitch","wi-fi","wps","lte","modem",
                 "epic","steam","playstore","appstore","google","vivo","oppo","internet","sosyal medya",
@@ -93,46 +92,7 @@ namespace SearchNewsProject
                 "space","tesla","windows","linux","yapay gerçek","yahoo","bing"
             };
 
-            //List<List<string>> parentList = new List<List<string>>();
-            //List<string> gundemKeysTRList = new List<string>();
-            //List<string> eduKeysTRList = new List<string>();
-            //List<string> ecoKeysTRList = new List<string>();
-            //List<string> worldKeysTRList = new List<string>();
-            //List<string> sportKeysTRList = new List<string>();
-            //List<string> healthKeysTRList = new List<string>();
-            //List<string> techKeysTRList = new List<string>();
-
-            //for (int i = 0; i < 7; i++)
-            //{
-            //    if (i == 0)
-            //    {
-            //        parentList.Add(addKeysToList(gundemKeysTRList, gundemKeysTR));
-            //    }
-            //    else if (i == 1)
-            //    {
-            //        parentList.Add(addKeysToList(eduKeysTRList, educationKeysTR));
-            //    }
-            //    else if (i == 2)
-            //    {
-            //        parentList.Add(addKeysToList(ecoKeysTRList, economyKeysTR));
-            //    }
-            //    else if (i == 3)
-            //    {
-            //        parentList.Add(addKeysToList(worldKeysTRList, worldKeysTR));
-            //    }
-            //    else if (i == 4)
-            //    {
-            //        parentList.Add(addKeysToList(sportKeysTRList, sportKeysTR));
-            //    }
-            //    else if (i == 5)
-            //    {
-            //        parentList.Add(addKeysToList(healthKeysTRList, healthKeysTR));
-            //    }
-            //    else if (i == 6)
-            //    {
-            //        parentList.Add(addKeysToList(techKeysTRList, techKeysTR));
-            //    }
-            //}
+            
 
             for (int i = 0; i < mainList.Count; i++)
             {
@@ -145,57 +105,42 @@ namespace SearchNewsProject
                 healthCounter = refreshCounter(content, healthKeysTR);
                 techCounter = refreshCounter(content, techKeysTR);
 
-               
-
                 result = findMax(gundemCounter, eduCounter, ecoCounter, worldCounter, sportCounter, healthCounter, techCounter);
 
-                
-
-                if (result == gundemCounter)
+                if (result == 0)
                 {
-                   
                     gundemList.Add(mainList.ElementAt(i));
                 }
-                if (result == eduCounter)
+                else if (result == gundemCounter)
                 {
-                    
-
+                    gundemList.Add(mainList.ElementAt(i));
+                }
+                else if (result == eduCounter)
+                {
                     educationList.Add(mainList.ElementAt(i));
                 }
-                if (result == ecoCounter)
+                else if (result == ecoCounter)
                 {
-                    
-
                     economyList.Add(mainList.ElementAt(i));
                 }
-                if (result == worldCounter)
+                else if (result == worldCounter)
                 {
                     worldList.Add(mainList.ElementAt(i));
                 }
-                if (result == sportCounter)
+                else if (result == sportCounter)
                 {
                     sportList.Add(mainList.ElementAt(i));
                 }
-                if (result == healthCounter)
+                else if (result == healthCounter)
                 {
                     healthList.Add(mainList.ElementAt(i));
                 }
-                if (result == techCounter)
+                else if (result == techCounter)
                 {
                     techList.Add(mainList.ElementAt(i));
                 }
             }
         }
-
-        //private List<string> addKeysToList(List<string> list, string[] keywords)
-        //{
-        //    for (int i = 0; i < keywords.Length; i++)
-        //    {
-        //        list.Add(keywords[i]);
-        //    }
-
-        //    return list;
-        //}
 
         private int refreshCounter(string content, string[] keyWords)
         {
@@ -203,10 +148,15 @@ namespace SearchNewsProject
 
             for (int i = 0; i < keyWords.Length; i++)
             {
-                if (content.Contains(keyWords[i]))
+                if (content.IndexOf(keyWords[i], System.StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     counter++;
                 }
+                /*
+                if (content.Contains(keyWords[i]))
+                {
+                    counter++;
+                }*/
             }
 
             return counter;
