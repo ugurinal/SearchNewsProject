@@ -452,7 +452,7 @@
             this.topicComboBox.DropDownHeight = 174;
             this.topicComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.topicComboBox.DropDownWidth = 121;
-            this.topicComboBox.Font = new System.Drawing.Font("Roboto Medium", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.topicComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.topicComboBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.topicComboBox.FormattingEnabled = true;
             this.topicComboBox.IntegralHeight = false;

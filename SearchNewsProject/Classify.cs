@@ -23,6 +23,18 @@ namespace SearchNewsProject
             this.mainList = mainList;
         }
 
+        public void clear()
+        {
+            mainList.Clear();
+            gundemList.Clear();
+            educationList.Clear();
+            economyList.Clear();
+            worldList.Clear();
+            sportList.Clear();
+            healthList.Clear();
+            techList.Clear();
+        }
+
         public void categorise()
         {
             int gundemCounter = 0;
@@ -71,7 +83,7 @@ namespace SearchNewsProject
                 "trabzon","başakşehir","fatih terim","mustafa cengiz","ali koç","iddia","transfer",
                 "sergen","gol","teknik direktör","bonservis","real madrid","juventus","ronaldo",
                 "tenis","yüzme","boks","olimpiyat","madalya","milli takım","tff","mhk","la liga",
-                "serie a","bundesliga","wnba","euroleague","bein","sport"
+                "serie a","bundesliga","wnba","euroleague","bein","sport","müsabaka"
             };
 
             string[] healthKeysTR = {
@@ -91,8 +103,6 @@ namespace SearchNewsProject
                 "endüstri","microsoft","gpt-3","nasa","mars","zuckerberg","amazon","jeff bezos","elon musk",
                 "space","tesla","windows","linux","yapay gerçek","yahoo","bing"
             };
-
-            
 
             for (int i = 0; i < mainList.Count; i++)
             {
@@ -209,6 +219,11 @@ namespace SearchNewsProject
         public List<ListItem> getTechList()
         {
             return techList;
+        }
+
+        public List<ListItem> getMainList()
+        {
+            return mainList;
         }
     }
 }

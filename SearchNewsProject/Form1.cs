@@ -130,6 +130,7 @@ namespace SearchNewsProject
                 backButton.Visible = false;
                 nextButton.Visible = false;
                 topicComboBox.Visible = false;
+
                 buttonCounter = 0;
                 topicComboBox.SelectedIndex = 0;
             }
@@ -147,7 +148,16 @@ namespace SearchNewsProject
         {
             flowLayoutPanel1.Controls.Clear();
             flowLayoutPanel1.Refresh();
-            listItems.Clear();
+
+            if (classify.getMainList() != null)
+            {
+                classify.clear();
+                listItems.Clear();
+            }
+
+            topicComboBox.SelectedIndex = 0;
+
+            progressBarForm.Show();
 
             if (sourceComboBox.SelectedIndex == 0)
             {
@@ -159,7 +169,6 @@ namespace SearchNewsProject
             }
             else
             {
-                progressBarForm.Show();
                 getCustomNews();
             }
         }
@@ -535,7 +544,11 @@ namespace SearchNewsProject
                     listItem.Image = imgLink;
                     listItem.Link = link;
                     listItem.Title = title;
-                    listItems.Add(listItem);
+
+                    if (description.IndexOf(keywordTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0)  // checks if the content
+                    {                                                                                       // of the news contains
+                        listItems.Add(listItem);                                                            // the keyword or not
+                    }
                 }
             }
 
@@ -667,53 +680,55 @@ namespace SearchNewsProject
             flowLayoutPanel1.Controls.Clear();
             flowLayoutPanel1.Refresh();
 
+            int indexOfFirstNew = 150 * buttonCounter;
+
             switch (index)
             {
                 case 0:
                     refreshLabels(listItems);
-                    populateNewsList(listItems, 150 * buttonCounter);
+                    populateNewsList(listItems, indexOfFirstNew);
                     nextButtonHandler(listItems);
                     break;
 
                 case 1:
                     refreshLabels(classify.getGundemList());
-                    populateNewsList(classify.getGundemList(), 150 * buttonCounter);
+                    populateNewsList(classify.getGundemList(), indexOfFirstNew);
                     nextButtonHandler(classify.getGundemList());
                     break;
 
                 case 2:
                     refreshLabels(classify.getEduList());
-                    populateNewsList(classify.getEduList(), 150 * buttonCounter);
+                    populateNewsList(classify.getEduList(), indexOfFirstNew);
                     nextButtonHandler(classify.getEduList());
                     break;
 
                 case 3:
                     refreshLabels(classify.getEcoList());
-                    populateNewsList(classify.getEcoList(), 150 * buttonCounter);
+                    populateNewsList(classify.getEcoList(), indexOfFirstNew);
                     nextButtonHandler(classify.getEcoList());
                     break;
 
                 case 4:
                     refreshLabels(classify.getWorldList());
-                    populateNewsList(classify.getWorldList(), 150 * buttonCounter);
+                    populateNewsList(classify.getWorldList(), indexOfFirstNew);
                     nextButtonHandler(classify.getWorldList());
                     break;
 
                 case 5:
                     refreshLabels(classify.getSportList());
-                    populateNewsList(classify.getSportList(), 150 * buttonCounter);
+                    populateNewsList(classify.getSportList(), indexOfFirstNew);
                     nextButtonHandler(classify.getSportList());
                     break;
 
                 case 6:
                     refreshLabels(classify.getHealthList());
-                    populateNewsList(classify.getHealthList(), 150 * buttonCounter);
+                    populateNewsList(classify.getHealthList(), indexOfFirstNew);
                     nextButtonHandler(classify.getHealthList());
                     break;
 
                 case 7:
                     refreshLabels(classify.getTechList());
-                    populateNewsList(classify.getTechList(), 150 * buttonCounter);
+                    populateNewsList(classify.getTechList(), indexOfFirstNew);
                     nextButtonHandler(classify.getTechList());
                     break;
             }
