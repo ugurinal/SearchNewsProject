@@ -71,7 +71,7 @@
             this.Name = "progressBarForm";
             this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "                               Progress";
+            this.Text = "                                 Progress";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.progressBarForm_FormClosing);
             this.ResumeLayout(false);
 

@@ -157,8 +157,6 @@ namespace SearchNewsProject
 
             topicComboBox.SelectedIndex = 0;
 
-            progressBarForm.Show();
-
             if (sourceComboBox.SelectedIndex == 0)
             {
                 searchByBingAPI();
@@ -169,6 +167,7 @@ namespace SearchNewsProject
             }
             else
             {
+                progressBarForm.Show();
                 getCustomNews();
             }
         }
@@ -255,7 +254,10 @@ namespace SearchNewsProject
 
                 dynamic jsonObj = bingNews.getBingNews();
 
-                int counter = 0;
+                if (jsonObj.totalEstimatedMatches < searchSize)
+                {
+                    searchSize = jsonObj.totalEstimatedMatches; ;
+                }
 
                 for (int i = 0; i < searchSize; i++)
                 {
@@ -266,7 +268,7 @@ namespace SearchNewsProject
                         string imgLink = jsonObj.value[i].image.thumbnail.contentUrl;
                         string content = jsonObj.value[i].description;
                         string author = jsonObj.value[i].provider[0].name;
-                        string publishedAt = jsonObj.value[0].datePublished.ToString("dd/MM/yyyy HH:mm");
+                        string publishedAt = jsonObj.value[i].datePublished.ToString("dd/MM/yyyy HH:mm");
 
                         ListItem temp = new ListItem();
 
@@ -277,20 +279,13 @@ namespace SearchNewsProject
                         temp.Link = url;
                         temp.Date = publishedAt;
                         listItems.Add(temp);
-                        counter++;
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
-                        MessageBox.Show(e.Message);
                     }
                 }
 
-                if (listItems.Count < searchSize)
-                {
-                    searchSize = listItems.Count;
-                }
-
-                for (int i = 0; i < searchSize; i++)
+                for (int i = 0; i < listItems.Count; i++)
                 {
                     addNewsToLayoutPanel(listItems, i);
                 }
@@ -324,6 +319,7 @@ namespace SearchNewsProject
                 toDateTimePicker.Enabled = false;
                 sortByComboBox.Enabled = true;
                 languageComboBox.Enabled = true;
+                searchSizeTextBox.Enabled = true;
 
                 sortByComboBox.Items.Clear();
                 sortByComboBox.Items.Add("Newest");
@@ -337,6 +333,7 @@ namespace SearchNewsProject
                 toDateTimePicker.Enabled = true;
                 sortByComboBox.Enabled = true;
                 languageComboBox.Enabled = true;
+                searchSizeTextBox.Enabled = true;
 
                 sortByComboBox.Items.Clear();
                 sortByComboBox.Items.Add("Newest");
@@ -347,10 +344,11 @@ namespace SearchNewsProject
             }
             else
             {
-                fromDateTimePicker.Enabled = true;
-                toDateTimePicker.Enabled = true;
+                fromDateTimePicker.Enabled = false;
+                toDateTimePicker.Enabled = false;
                 sortByComboBox.Enabled = false;
                 languageComboBox.Enabled = false;
+                searchSizeTextBox.Enabled = false;
             }
         }
 
