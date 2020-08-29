@@ -307,8 +307,6 @@ namespace SearchNewsProject
 
             topicComboBox.Enabled = true;
             topicComboBox.Visible = true;
-
-            BNButtonHandler(listItems);
         }
 
         private void sourceComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -631,7 +629,7 @@ namespace SearchNewsProject
             int counter = 0;
 
             refreshLabels(list);
-            BNButtonHandler(list);
+            initBNButton(list);
 
             for (int i = current; i < list.Count; i++)
             {
@@ -670,7 +668,20 @@ namespace SearchNewsProject
 
         private void backAndNextButton(int index)
         {
-            if (buttonCounter <= 0)         // if button counter is less or equal to zero(0) disable the back button.
+            //if (buttonCounter <= 0)         // if button counter is less or equal to zero(0) disable the back button.
+            //{
+            //     backButton.Enabled = false;
+            // }
+            // else
+            // {
+            //backButton.Enabled = true;
+            // }
+
+            if (buttonCounter >= 0)
+            {
+                backButton.Enabled = true;
+            }
+            else
             {
                 backButton.Enabled = false;
             }
@@ -685,54 +696,56 @@ namespace SearchNewsProject
                 case 0:
                     refreshLabels(listItems);
                     populateNewsList(listItems, indexOfFirstNew);
-                    nextButtonHandler(listItems);
+                    BackAndNextButController(listItems);
+
                     break;
 
                 case 1:
                     refreshLabels(classify.getGundemList());
                     populateNewsList(classify.getGundemList(), indexOfFirstNew);
-                    nextButtonHandler(classify.getGundemList());
+                    BackAndNextButController(classify.getGundemList());
+
                     break;
 
                 case 2:
                     refreshLabels(classify.getEduList());
                     populateNewsList(classify.getEduList(), indexOfFirstNew);
-                    nextButtonHandler(classify.getEduList());
+                    BackAndNextButController(classify.getEduList());
                     break;
 
                 case 3:
                     refreshLabels(classify.getEcoList());
                     populateNewsList(classify.getEcoList(), indexOfFirstNew);
-                    nextButtonHandler(classify.getEcoList());
+                    BackAndNextButController(classify.getEcoList());
                     break;
 
                 case 4:
                     refreshLabels(classify.getWorldList());
                     populateNewsList(classify.getWorldList(), indexOfFirstNew);
-                    nextButtonHandler(classify.getWorldList());
+                    BackAndNextButController(classify.getWorldList());
                     break;
 
                 case 5:
                     refreshLabels(classify.getSportList());
                     populateNewsList(classify.getSportList(), indexOfFirstNew);
-                    nextButtonHandler(classify.getSportList());
+                    BackAndNextButController(classify.getSportList());
                     break;
 
                 case 6:
                     refreshLabels(classify.getHealthList());
                     populateNewsList(classify.getHealthList(), indexOfFirstNew);
-                    nextButtonHandler(classify.getHealthList());
+                    BackAndNextButController(classify.getHealthList());
                     break;
 
                 case 7:
                     refreshLabels(classify.getTechList());
                     populateNewsList(classify.getTechList(), indexOfFirstNew);
-                    nextButtonHandler(classify.getTechList());
+                    BackAndNextButController(classify.getTechList());
                     break;
             }
         }
 
-        private void BNButtonHandler(List<ListItem> list)   // for back and next button to be visible, enabled or not
+        private void initBNButton(List<ListItem> list)   // for back and next button to be visible, enabled or not
         {
             if (list.Count > 150)
             {
@@ -750,12 +763,19 @@ namespace SearchNewsProject
             }
         }
 
-        private void nextButtonHandler(List<ListItem> list)
+        private void BackAndNextButController(List<ListItem> list)
         {
             if ((list.Count / (150 * (buttonCounter + 1))) < 1)    // if there are no unlisted news
             {                                                           // make forward button disable
                 nextButton.Enabled = false;
             }
+
+            if (buttonCounter > 0)
+            {
+                backButton.Enabled = true;
+            }
         }
+
+        
     }
 }
