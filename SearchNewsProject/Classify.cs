@@ -5,7 +5,7 @@ namespace SearchNewsProject
 {
     public class Classify
     {
-        private List<ListItem> mainList;
+        private List<ListItem> mainList = new List<ListItem>();
         private List<ListItem> gundemList = new List<ListItem>();
         private List<ListItem> educationList = new List<ListItem>();
         private List<ListItem> economyList = new List<ListItem>();

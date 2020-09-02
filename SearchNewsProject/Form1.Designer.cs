@@ -32,7 +32,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.sourceComboBox = new MaterialSkin.Controls.MaterialComboBox();
             this.materialLabel8 = new MaterialSkin.Controls.MaterialLabel();
-            this.xuiButton1 = new XanderUI.XUIButton();
+            this.searchButton = new XanderUI.XUIButton();
             this.sortByComboBox = new MaterialSkin.Controls.MaterialComboBox();
             this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel6 = new MaterialSkin.Controls.MaterialLabel();
@@ -52,10 +52,10 @@
             this.textBoxContextMenuStrip1 = new MaterialSkin.Controls.TextBoxContextMenuStrip();
             this.backButton = new MaterialSkin.Controls.MaterialButton();
             this.nextButton = new MaterialSkin.Controls.MaterialButton();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.totalResultLabel = new System.Windows.Forms.Label();
+            this.ShowingResultLabel = new System.Windows.Forms.Label();
+            this.totalResultNum = new System.Windows.Forms.Label();
+            this.ShowingResultNum = new System.Windows.Forms.Label();
             this.topicComboBox = new MaterialSkin.Controls.MaterialComboBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -66,7 +66,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.Controls.Add(this.sourceComboBox);
             this.groupBox1.Controls.Add(this.materialLabel8);
-            this.groupBox1.Controls.Add(this.xuiButton1);
+            this.groupBox1.Controls.Add(this.searchButton);
             this.groupBox1.Controls.Add(this.sortByComboBox);
             this.groupBox1.Controls.Add(this.materialLabel7);
             this.groupBox1.Controls.Add(this.materialLabel6);
@@ -124,27 +124,27 @@
             this.materialLabel8.TabIndex = 14;
             this.materialLabel8.Text = "Source:";
             // 
-            // xuiButton1
+            // searchButton
             // 
-            this.xuiButton1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(105)))), ((int)(((byte)(92)))));
-            this.xuiButton1.ButtonImage = ((System.Drawing.Image)(resources.GetObject("xuiButton1.ButtonImage")));
-            this.xuiButton1.ButtonStyle = XanderUI.XUIButton.Style.MaterialRounded;
-            this.xuiButton1.ButtonText = "SEARCH";
-            this.xuiButton1.ClickBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(100)))), ((int)(((byte)(92)))));
-            this.xuiButton1.ClickTextColor = System.Drawing.Color.White;
-            this.xuiButton1.CornerRadius = 5;
-            this.xuiButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F);
-            this.xuiButton1.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
-            this.xuiButton1.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(105)))), ((int)(((byte)(92)))));
-            this.xuiButton1.HoverTextColor = System.Drawing.Color.White;
-            this.xuiButton1.ImagePosition = XanderUI.XUIButton.imgPosition.Left;
-            this.xuiButton1.Location = new System.Drawing.Point(176, 615);
-            this.xuiButton1.Name = "xuiButton1";
-            this.xuiButton1.Size = new System.Drawing.Size(240, 75);
-            this.xuiButton1.TabIndex = 13;
-            this.xuiButton1.TextColor = System.Drawing.Color.White;
-            this.xuiButton1.Vertical_Alignment = System.Drawing.StringAlignment.Center;
-            this.xuiButton1.Click += new System.EventHandler(this.xuiButton1_Click);
+            this.searchButton.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(105)))), ((int)(((byte)(92)))));
+            this.searchButton.ButtonImage = ((System.Drawing.Image)(resources.GetObject("searchButton.ButtonImage")));
+            this.searchButton.ButtonStyle = XanderUI.XUIButton.Style.MaterialRounded;
+            this.searchButton.ButtonText = "SEARCH";
+            this.searchButton.ClickBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(100)))), ((int)(((byte)(92)))));
+            this.searchButton.ClickTextColor = System.Drawing.Color.White;
+            this.searchButton.CornerRadius = 5;
+            this.searchButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F);
+            this.searchButton.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
+            this.searchButton.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(105)))), ((int)(((byte)(92)))));
+            this.searchButton.HoverTextColor = System.Drawing.Color.White;
+            this.searchButton.ImagePosition = XanderUI.XUIButton.imgPosition.Left;
+            this.searchButton.Location = new System.Drawing.Point(176, 615);
+            this.searchButton.Name = "searchButton";
+            this.searchButton.Size = new System.Drawing.Size(240, 75);
+            this.searchButton.TabIndex = 13;
+            this.searchButton.TextColor = System.Drawing.Color.White;
+            this.searchButton.Vertical_Alignment = System.Drawing.StringAlignment.Center;
+            this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
             // 
             // sortByComboBox
             // 
@@ -403,45 +403,45 @@
             this.nextButton.UseVisualStyleBackColor = true;
             this.nextButton.Click += new System.EventHandler(this.nextButton_Click);
             // 
-            // label1
+            // totalResultLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(634, 907);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(113, 20);
-            this.label1.TabIndex = 19;
-            this.label1.Text = "Total Results:";
+            this.totalResultLabel.AutoSize = true;
+            this.totalResultLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.totalResultLabel.Location = new System.Drawing.Point(634, 907);
+            this.totalResultLabel.Name = "totalResultLabel";
+            this.totalResultLabel.Size = new System.Drawing.Size(113, 20);
+            this.totalResultLabel.TabIndex = 19;
+            this.totalResultLabel.Text = "Total Results:";
             // 
-            // label2
+            // ShowingResultLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(807, 907);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 20);
-            this.label2.TabIndex = 20;
-            this.label2.Text = "Showing:";
+            this.ShowingResultLabel.AutoSize = true;
+            this.ShowingResultLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ShowingResultLabel.Location = new System.Drawing.Point(807, 907);
+            this.ShowingResultLabel.Name = "ShowingResultLabel";
+            this.ShowingResultLabel.Size = new System.Drawing.Size(77, 20);
+            this.ShowingResultLabel.TabIndex = 20;
+            this.ShowingResultLabel.Text = "Showing:";
             // 
-            // label3
+            // totalResultNum
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(753, 907);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(45, 20);
-            this.label3.TabIndex = 21;
-            this.label3.Text = "9999";
+            this.totalResultNum.AutoSize = true;
+            this.totalResultNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.totalResultNum.Location = new System.Drawing.Point(753, 907);
+            this.totalResultNum.Name = "totalResultNum";
+            this.totalResultNum.Size = new System.Drawing.Size(45, 20);
+            this.totalResultNum.TabIndex = 21;
+            this.totalResultNum.Text = "9999";
             // 
-            // label4
+            // ShowingResultNum
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(890, 907);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(61, 20);
-            this.label4.TabIndex = 22;
-            this.label4.Text = "1 - 150";
+            this.ShowingResultNum.AutoSize = true;
+            this.ShowingResultNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ShowingResultNum.Location = new System.Drawing.Point(890, 907);
+            this.ShowingResultNum.Name = "ShowingResultNum";
+            this.ShowingResultNum.Size = new System.Drawing.Size(61, 20);
+            this.ShowingResultNum.TabIndex = 22;
+            this.ShowingResultNum.Text = "1 - 150";
             // 
             // topicComboBox
             // 
@@ -471,10 +471,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1920, 1000);
             this.Controls.Add(this.topicComboBox);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.ShowingResultNum);
+            this.Controls.Add(this.totalResultNum);
+            this.Controls.Add(this.ShowingResultLabel);
+            this.Controls.Add(this.totalResultLabel);
             this.Controls.Add(this.nextButton);
             this.Controls.Add(this.backButton);
             this.Controls.Add(this.flowLayoutPanel1);
@@ -494,7 +494,7 @@
 
         private System.Windows.Forms.GroupBox groupBox1;
         private MaterialSkin.Controls.MaterialLabel materialLabel8;
-        private XanderUI.XUIButton xuiButton1;
+        private XanderUI.XUIButton searchButton;
         private MaterialSkin.Controls.MaterialComboBox sortByComboBox;
         private MaterialSkin.Controls.MaterialLabel materialLabel7;
         private MaterialSkin.Controls.MaterialLabel materialLabel6;
@@ -515,10 +515,10 @@
         private MaterialSkin.Controls.TextBoxContextMenuStrip textBoxContextMenuStrip1;
         private MaterialSkin.Controls.MaterialButton backButton;
         private MaterialSkin.Controls.MaterialButton nextButton;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label totalResultLabel;
+        private System.Windows.Forms.Label ShowingResultLabel;
+        private System.Windows.Forms.Label totalResultNum;
+        private System.Windows.Forms.Label ShowingResultNum;
         private MaterialSkin.Controls.MaterialComboBox topicComboBox;
     }
 }

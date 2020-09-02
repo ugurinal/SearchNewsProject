@@ -13,21 +13,28 @@ namespace SearchNewsProject
 {
     public partial class Form1 : MaterialForm
     {
-        public List<ListItem> listItems = new List<ListItem>();
-        public progressBarForm progressBarForm = new progressBarForm();
-        public Classify classify = new Classify();
+        #region global variables
 
-        private int buttonCounter = 0;  // a counter that count how many times back and forward button clicked.
+        public List<ListItem> listItems = new List<ListItem>();         // A list to keep all the news
+        public progressBarForm progressBarForm = new progressBarForm(); // Prograss bar to show progression
+        public Classify classify = new Classify();                      // Classify object to classify the news
+        private int buttonCounter = 0;  // a counter that count how many times back and next button clicked.
+
+        #endregion global variables
+
+        /* Main form*/
 
         public Form1()
         {
             InitializeComponent();
-            setSkin();
-            setDateTimePickers();
-            setButton();
-            setComboBoxes();
-            setLabels(false);
+            setSkin();              // Theme of forms
+            setDateTimePickers();   // Sets date time pickers
+            setButton();            // Sets buttons
+            setComboBoxes();        // Sets comboboxes
+            setLabels(false);       // Sets labels
         }
+
+        /* Function to change the theme of forms*/
 
         public void setSkin()
         {
@@ -38,6 +45,9 @@ namespace SearchNewsProject
             materialSkinManager.ColorScheme = new ColorScheme(Primary.Teal800, Primary.Teal800,
                 Primary.Blue500, Accent.LightBlue200, TextShade.WHITE);
         }
+
+        /*  Function to correct the date time piclers.
+            Date time picker must be in range of last 30 days.*/
 
         public void setDateTimePickers()
         {
@@ -63,14 +73,18 @@ namespace SearchNewsProject
             toDateTimePicker.MaxDate = DateTime.Today;
         }
 
+        /* Initialize the buttons. Which sould be shown or not.*/
+
         public void setButton()
         {
             Font font = new Font("Microsoft Sans Serif", 18, FontStyle.Regular);
-            xuiButton1.Font = font;
+            searchButton.Font = font;
 
             backButton.Visible = false;
             nextButton.Visible = false;
         }
+
+        /* Initialize the comboboxes. Addes choices in them.*/
 
         public void setComboBoxes()
         {
@@ -100,89 +114,126 @@ namespace SearchNewsProject
             sortByComboBox.SelectedIndex = 0;
         }
 
+        /* Sets the total result and showing results labels.*/
+
         public void setLabels(bool value)
         {
-            label1.Visible = value;
-            label2.Visible = value;
-            label3.Visible = value;
-            label4.Visible = value;
+            totalResultLabel.Visible = value;
+            ShowingResultLabel.Visible = value;
+            totalResultNum.Visible = value;
+            ShowingResultNum.Visible = value;
         }
+
+        /* Updates the results labels.*/
 
         public void refreshLabels(List<ListItem> list)
         {
-            int currentFirstResults = 150 * buttonCounter;
-            int currentLastResults = (150 * (buttonCounter + 1));
+            int currentFirstResults = 150 * buttonCounter;          // if the button counter is zero it means
+            int currentLastResults = (150 * (buttonCounter + 1));   // the user is in the first page
 
-            if (currentLastResults > list.Count)
-            {
-                currentLastResults = list.Count;
-            }
+            if (currentLastResults > list.Count)                    // At the end of pages if the list count is
+            {                                                       // less than current result, list count must be
+                currentLastResults = list.Count;                    // displayed. Eg. if there is 736 news, it must
+            }                                                       // be showing result: 600-736
 
-            label3.Text = list.Count.ToString();
-            label4.Text = "" + currentFirstResults + " - " + currentLastResults;
+            totalResultNum.Text = list.Count.ToString();
+            ShowingResultNum.Text = "" + currentFirstResults + " - " + currentLastResults;
         }
 
-        private void xuiButton1_Click(object sender, EventArgs e)
+        private void searchButton_Click(object sender, EventArgs e)
         {
-            if (backButton.Visible)
-            {
-                setLabels(false);
-                backButton.Visible = false;
-                nextButton.Visible = false;
-                topicComboBox.Visible = false;
+            setLabels(false);                   // if the back button is visible it resets the labels, buttons
+            backButton.Visible = false;         // buttonCounter, in short it resets evertything.
+            nextButton.Visible = false;         // Making it look like it is opened new.
+            topicComboBox.Visible = false;
+            buttonCounter = 0;
+            topicComboBox.SelectedIndex = 0;
 
-                buttonCounter = 0;
-                topicComboBox.SelectedIndex = 0;
-            }
+            flowLayoutPanel1.Controls.Clear();      // Clear the content of content panel
+            flowLayoutPanel1.Refresh();
 
-            flowLayoutPanel1.Controls.Clear();
+            listItems.Clear();                      // Clear the items in the list item which is
+            classify.clear();                       // used for storing news. And the classify lists.
 
-            listItems.Clear();
-
-            backgroundWorker1.RunWorkerAsync();
-
+            backgroundWorker1.RunWorkerAsync();     // Starts the background worker. Background worker
+                                                    // will do everything.
             UseWaitCursor = true;
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            flowLayoutPanel1.Controls.Clear();
-            flowLayoutPanel1.Refresh();
-
-            if (classify.getMainList() != null)
-            {
-                classify.clear();
-                listItems.Clear();
-            }
-
             topicComboBox.SelectedIndex = 0;
+            int selectedIndex = sourceComboBox.SelectedIndex;
 
-            if (sourceComboBox.SelectedIndex == 0)
+            if (selectedIndex == 0)
             {
                 searchByBingAPI();
             }
-            else if (sourceComboBox.SelectedIndex == 1)
+            else if (selectedIndex == 1)
             {
                 searchByNewsAPI();
             }
             else
             {
                 progressBarForm.Show();
-                getCustomNews();
+                SearchByCustom();
+                progressBarForm.closeForm();
+            }
+
+            classify.setMainList(listItems);    // sends the main list to the classfy class
+            classify.categorise();              // Categorise the news
+        }
+
+        /* If sourse combobox selected index changes it will modify the other elemets like textbox,
+         date time pickers, sortby comboboxes...*/
+
+        private void sourceComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int selectedIndex = sourceComboBox.SelectedIndex;
+
+            if (selectedIndex == 0)
+            {
+                fromDateTimePicker.Enabled = false;
+                toDateTimePicker.Enabled = false;
+                sortByComboBox.Enabled = true;
+                languageComboBox.Enabled = true;
+                searchSizeTextBox.Enabled = true;
+
+                sortByComboBox.Items.Clear();
+                sortByComboBox.Items.Add("Newest");
+                sortByComboBox.Items.Add("None");
+                sortByComboBox.SelectedIndex = 1;
+                sortByComboBox.Refresh();
+            }
+            else if (selectedIndex == 1)
+            {
+                fromDateTimePicker.Enabled = true;
+                toDateTimePicker.Enabled = true;
+                sortByComboBox.Enabled = true;
+                languageComboBox.Enabled = true;
+                searchSizeTextBox.Enabled = true;
+
+                sortByComboBox.Items.Clear();
+                sortByComboBox.Items.Add("Newest");
+                sortByComboBox.Items.Add("Popularity");
+                sortByComboBox.Items.Add("Relevancy");
+                sortByComboBox.SelectedIndex = 0;
+                sortByComboBox.Refresh();
+            }
+            else
+            {
+                fromDateTimePicker.Enabled = false;
+                toDateTimePicker.Enabled = false;
+                sortByComboBox.Enabled = false;
+                languageComboBox.Enabled = false;
+                searchSizeTextBox.Enabled = false;
             }
         }
 
         private void searchByNewsAPI()
         {
-            if (String.IsNullOrWhiteSpace(keywordTextBox.Text) || String.IsNullOrEmpty(searchSizeTextBox.Text))
-            {
-                MessageBox.Show("Search size or keywords fields can not be empty.");
-            }
-            else if (Convert.ToInt32(searchSizeTextBox.Text) < 0)
-            {
-                MessageBox.Show("Search size can not be lower than 0.");
-            }
-            else
+            /* Checks the keyword and searchsize text boxes if they are valid or not*/
+            if (checkTextBoxes())
             {
                 string keyWords = keywordTextBox.Text;
                 int searchSize = Convert.ToInt32(searchSizeTextBox.Text);
@@ -200,15 +251,8 @@ namespace SearchNewsProject
                 {
                     List<Article> articles = news.getArticles();
 
-                    int counter = 0;
-
                     foreach (var newsResult in articles)
                     {
-                        if (counter >= searchSize)
-                        {
-                            break;
-                        }
-
                         ListItem temp = new ListItem();
                         temp.Title = newsResult.Title;
                         temp.Content = newsResult.Description;
@@ -217,7 +261,11 @@ namespace SearchNewsProject
                         temp.Link = newsResult.Url;
                         temp.Date = newsResult.PublishedAt.Value.ToString("dd/MM/yyyy HH:mm");
                         listItems.Add(temp);
-                        counter++;
+
+                        if (listItems.Count >= searchSize)
+                        {
+                            break;
+                        }
                     }
 
                     for (int i = 0; i < listItems.Count; i++)
@@ -234,15 +282,8 @@ namespace SearchNewsProject
 
         private void searchByBingAPI()
         {
-            if (String.IsNullOrWhiteSpace(keywordTextBox.Text) || String.IsNullOrWhiteSpace(searchSizeTextBox.Text))
-            {
-                MessageBox.Show("Search size or keywords fields can not be empty.");
-            }
-            else if (Convert.ToInt32(searchSizeTextBox.Text) < 0)
-            {
-                MessageBox.Show("Search size can not be lower or equal to 0.");
-            }
-            else
+            /* Checks the keyword and searchsize text boxes if they are valid or not*/
+            if (checkTextBoxes())
             {
                 string keyWords = keywordTextBox.Text;
                 int language = languageComboBox.SelectedIndex;
@@ -254,9 +295,9 @@ namespace SearchNewsProject
 
                 dynamic jsonObj = bingNews.getBingNews();
 
-                if (jsonObj.totalEstimatedMatches < searchSize)
-                {
-                    searchSize = jsonObj.totalEstimatedMatches; ;
+                if (jsonObj.totalEstimatedMatches < searchSize)     // if there are less news than search size
+                {                                                   // assign totalestimatedmatches to searchsize
+                    searchSize = jsonObj.totalEstimatedMatches; ;   // to use it in for loop in the below
                 }
 
                 for (int i = 0; i < searchSize; i++)
@@ -292,65 +333,7 @@ namespace SearchNewsProject
             }
         }
 
-        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            setLabels(true);
-            refreshLabels(listItems);
-            flowLayoutPanel1.Refresh();
-
-            progressBarForm.closeForm();
-
-            UseWaitCursor = false;
-
-            classify.setMainList(listItems);
-            classify.categorise();
-
-            topicComboBox.Enabled = true;
-            topicComboBox.Visible = true;
-        }
-
-        private void sourceComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (sourceComboBox.SelectedIndex == 0)
-            {
-                fromDateTimePicker.Enabled = false;
-                toDateTimePicker.Enabled = false;
-                sortByComboBox.Enabled = true;
-                languageComboBox.Enabled = true;
-                searchSizeTextBox.Enabled = true;
-
-                sortByComboBox.Items.Clear();
-                sortByComboBox.Items.Add("Newest");
-                sortByComboBox.Items.Add("None");
-                sortByComboBox.SelectedIndex = 1;
-                sortByComboBox.Refresh();
-            }
-            else if (sourceComboBox.SelectedIndex == 1)
-            {
-                fromDateTimePicker.Enabled = true;
-                toDateTimePicker.Enabled = true;
-                sortByComboBox.Enabled = true;
-                languageComboBox.Enabled = true;
-                searchSizeTextBox.Enabled = true;
-
-                sortByComboBox.Items.Clear();
-                sortByComboBox.Items.Add("Newest");
-                sortByComboBox.Items.Add("Popularity");
-                sortByComboBox.Items.Add("Relevancy");
-                sortByComboBox.SelectedIndex = 0;
-                sortByComboBox.Refresh();
-            }
-            else
-            {
-                fromDateTimePicker.Enabled = false;
-                toDateTimePicker.Enabled = false;
-                sortByComboBox.Enabled = false;
-                languageComboBox.Enabled = false;
-                searchSizeTextBox.Enabled = false;
-            }
-        }
-
-        private void getCustomNews()
+        private void SearchByCustom()
         {
             string[] sourceUrls = {
                 "https://www.sabah.com.tr/rss/anasayfa.xml",        // same 0
@@ -554,6 +537,20 @@ namespace SearchNewsProject
             backgroundWorker1.ReportProgress(Convert.ToInt32(progress));
         }
 
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (listItems.Count > 0)
+            {
+                setLabels(true);
+                refreshLabels(listItems);
+                flowLayoutPanel1.Refresh();
+
+                topicComboBox.Enabled = true;
+                topicComboBox.Visible = true;
+            }
+            UseWaitCursor = false;
+        }
+
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             progressBarForm.updateProgressBar(e.ProgressPercentage);
@@ -646,37 +643,21 @@ namespace SearchNewsProject
 
         private void addNewsToLayoutPanel(List<ListItem> listItems, int current)
         {
-            if (flowLayoutPanel1.Controls.Count < 0)
+            if (InvokeRequired)
             {
-                flowLayoutPanel1.Controls.Clear();
+                BeginInvoke((MethodInvoker)delegate ()
+                {
+                    flowLayoutPanel1.Controls.Add(listItems.ElementAt(current));
+                });
             }
             else
             {
-                if (InvokeRequired)
-                {
-                    BeginInvoke((MethodInvoker)delegate ()
-                    {
-                        flowLayoutPanel1.Controls.Add(listItems.ElementAt(current));
-                    });
-                }
-                else
-                {
-                    flowLayoutPanel1.Controls.Add(listItems.ElementAt(current));
-                }
+                flowLayoutPanel1.Controls.Add(listItems.ElementAt(current));
             }
         }
 
         private void backAndNextButton(int index)
         {
-            //if (buttonCounter <= 0)         // if button counter is less or equal to zero(0) disable the back button.
-            //{
-            //     backButton.Enabled = false;
-            // }
-            // else
-            // {
-            //backButton.Enabled = true;
-            // }
-
             if (buttonCounter >= 0)
             {
                 backButton.Enabled = true;
@@ -776,6 +757,22 @@ namespace SearchNewsProject
             }
         }
 
-        
+        private bool checkTextBoxes()
+        {
+            if (String.IsNullOrWhiteSpace(keywordTextBox.Text) || String.IsNullOrWhiteSpace(searchSizeTextBox.Text))
+            {
+                MessageBox.Show("Search size or keywords fields can not be empty.");
+                return false;
+            }
+            else if (Convert.ToInt32(searchSizeTextBox.Text) < 0 || Convert.ToInt32(searchSizeTextBox.Text) > 100)
+            {
+                MessageBox.Show("Search size can not be lower than 0 or higher than 100.");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 }
