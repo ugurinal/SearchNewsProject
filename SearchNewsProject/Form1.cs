@@ -375,9 +375,11 @@ namespace SearchNewsProject
 
                 nodeCounter += itemNode.Count;
 
-                progress += (100.0 / sourceUrls.Length);
-                backgroundWorker1.ReportProgress(Convert.ToInt32(progress));
+                progress += (100.0 / sourceUrls.Length);        // updates the progress
+                backgroundWorker1.ReportProgress(Convert.ToInt32(progress));    // updates the progress bar
             }
+
+            /* Fill the list items which stores the news */
 
             for (int i = 0; i < xmlDocuments.Count; i++)
             {
@@ -399,7 +401,7 @@ namespace SearchNewsProject
                     string link = singleNode.SelectSingleNode("link").InnerText;
                     string pubDate = singleNode.SelectSingleNode("pubDate").InnerText;
                     string imgLink = null;
-                    string description = null;
+                    string content = null;
 
                     if (i < 5)
                     {
@@ -408,11 +410,11 @@ namespace SearchNewsProject
                         startIndex = singleNode.SelectSingleNode("description").InnerText.IndexOf("<br />") + 6;
                         lastIndex = singleNode.SelectSingleNode("description").InnerText.IndexOf("<a href");
 
-                        description = singleNode.SelectSingleNode("description").InnerText.Substring(startIndex, (lastIndex - startIndex));
+                        content = singleNode.SelectSingleNode("description").InnerText.Substring(startIndex, (lastIndex - startIndex));
                     }
                     else if (i >= 5 && i <= 8)
                     {
-                        description = singleNode.SelectSingleNode("description").InnerText;
+                        content = singleNode.SelectSingleNode("description").InnerText;
                     }
                     else if (i >= 9 && i <= 11)
                     {
@@ -420,13 +422,15 @@ namespace SearchNewsProject
 
                         startIndex = singleNode.SelectSingleNode("description").InnerText.IndexOf("</a>") + 4;
                         lastIndex = singleNode.SelectSingleNode("description").InnerText.Length;
-                        description = singleNode.SelectSingleNode("description").InnerText.Substring(startIndex, (lastIndex - startIndex));
+                        content = singleNode.SelectSingleNode("description").InnerText.Substring(startIndex, (lastIndex - startIndex));
                     }
                     else if (i >= 12 && i <= 16)
                     {
-                        description = singleNode.SelectSingleNode("description").InnerText;
+                        content = singleNode.SelectSingleNode("description").InnerText;
                     }
 
+                    /* Checks if the rss feed contains the image link or not
+                     if it doesn't we assign it*/
                     if (singleNode.SelectSingleNode("enclosure") != null)
                     {
                         imgLink = singleNode.SelectSingleNode("enclosure").Attributes["url"].Value;
@@ -518,13 +522,13 @@ namespace SearchNewsProject
                     }
 
                     listItem.Author = author;
-                    listItem.Content = description;
+                    listItem.Content = content;
                     listItem.Date = pubDate;
                     listItem.Image = imgLink;
                     listItem.Link = link;
                     listItem.Title = title;
 
-                    if (description.IndexOf(keywordTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0)  // checks if the content
+                    if (content.IndexOf(keywordTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0)  // checks if the content
                     {                                                                                       // of the news contains
                         listItems.Add(listItem);                                                            // the keyword or not
                     }
@@ -533,7 +537,7 @@ namespace SearchNewsProject
 
             populateNewsList(listItems, 0);
 
-            progress = 100;
+            progress = 99;
             backgroundWorker1.ReportProgress(Convert.ToInt32(progress));
         }
 
@@ -558,24 +562,38 @@ namespace SearchNewsProject
 
         private void nextButton_Click(object sender, EventArgs e)
         {
+            int selectedTopicIndex = topicComboBox.SelectedIndex;
             buttonCounter++;
-            backAndNextButton(topicComboBox.SelectedIndex);
+            backAndNextButton(selectedTopicIndex);
             backButton.Enabled = true;
         }
 
         private void backButton_Click(object sender, EventArgs e)
         {
+            int selectedTopicIndex = topicComboBox.SelectedIndex;
             buttonCounter--;
-            backAndNextButton(topicComboBox.SelectedIndex);
+            backAndNextButton(selectedTopicIndex);
             nextButton.Enabled = true;
         }
+
+        /*
+         * Updates the news panel when topic is changed
+         * 0 = All items
+         * 1 = Gundem
+         * 2 = Education
+         * 3 = Economy
+         * 4 = World
+         * 5 = Sport
+         * 6 = Health
+         * 7 = Technology
+         */
 
         private void topicComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             int index = topicComboBox.SelectedIndex;
 
             flowLayoutPanel1.Controls.Clear();
-            buttonCounter = 0;
+            buttonCounter = 0;  // when the news panel resets , also reset the button counter
 
             switch (index)
             {
@@ -625,8 +643,8 @@ namespace SearchNewsProject
 
             int counter = 0;
 
-            refreshLabels(list);
-            initBNButton(list);
+            refreshLabels(list);    // updates the result labels
+            initBNButton(list);     // checks the back and next button if it should be visible, enable or not
 
             for (int i = current; i < list.Count; i++)
             {
@@ -668,10 +686,20 @@ namespace SearchNewsProject
             }
 
             flowLayoutPanel1.Controls.Clear();
-            flowLayoutPanel1.Refresh();
 
             int indexOfFirstNew = 150 * buttonCounter;
 
+            /*
+             *Refresh the news panel by checking the index of topic combo box.
+             *0 = All news
+             *1 = Gundem
+             *2 = Education
+             *3 = Economy
+             *4 = World
+             *5 = Sport
+             *6 = Health
+             *7 = Technology
+             */
             switch (index)
             {
                 case 0:
@@ -746,13 +774,13 @@ namespace SearchNewsProject
 
         private void BackAndNextButController(List<ListItem> list)
         {
-            if ((list.Count / (150 * (buttonCounter + 1))) < 1)    // if there are no unlisted news
-            {                                                           // make forward button disable
+            if ((list.Count / (150 * (buttonCounter + 1))) < 1)     // if there are no unlisted news
+            {                                                       // make forward button disabled
                 nextButton.Enabled = false;
             }
 
-            if (buttonCounter > 0)
-            {
+            if (buttonCounter > 0)                                  // if button counter is higher than0
+            {                                                       // make back button enabled
                 backButton.Enabled = true;
             }
         }
