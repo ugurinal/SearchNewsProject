@@ -336,22 +336,22 @@ namespace SearchNewsProject
         private void SearchByCustom()
         {
             string[] sourceUrls = {
-                "https://www.sabah.com.tr/rss/anasayfa.xml",        // same 0
-                "https://www.sabah.com.tr/rss/sondakika.xml",       // same 0
-                "https://www.takvim.com.tr/rss/anasayfa.xml",       // same 0
-                "https://www.takvim.com.tr/rss/guncel.xml",         // same 0
-                "https://www.fotomac.com.tr/rss/anasayfa.xml",      // same 0
-                "https://rss.haberler.com/rss.asp",                 // same 1
-                "https://www.haber.com/news-rss/",                  // same 1
-                "https://tr.sputniknews.com/export/rss2/archive/index.xml",// same1
-                "http://www.star.com.tr/rss/rss.asp",               // same 1
-                "https://www.ensonhaber.com/rss/mansetler.xml",     // same 2
-                "https://www.ensonhaber.com/rss/ensonhaber.xml",    // same 2
-                "http://www.haberturk.com/rss",                     // same 2
-                "https://www.cnnturk.com/feed/rss/all/news",        // same 3
-                "https://www.aa.com.tr/tr/rss/default?cat=guncel",   // same 3
-                "http://www.mynet.com/haber/rss/sondakika",         // same 4
-                "https://www.cumhuriyet.com.tr/rss",                // same 5
+                "https://www.sabah.com.tr/rss/anasayfa.xml",
+                "https://www.sabah.com.tr/rss/sondakika.xml",
+                "https://www.takvim.com.tr/rss/anasayfa.xml",
+                "https://www.takvim.com.tr/rss/guncel.xml",
+                "https://www.fotomac.com.tr/rss/anasayfa.xml",
+                "https://rss.haberler.com/rss.asp",
+                "https://www.haber.com/news-rss/",
+                "https://tr.sputniknews.com/export/rss2/archive/index.xml",
+                "http://www.star.com.tr/rss/rss.asp",
+                "https://www.ensonhaber.com/rss/mansetler.xml",
+                "https://www.ensonhaber.com/rss/ensonhaber.xml",
+                "http://www.haberturk.com/rss",
+                "https://www.cnnturk.com/feed/rss/all/news",
+                "https://www.aa.com.tr/tr/rss/default?cat=guncel",
+                "http://www.mynet.com/haber/rss/sondakika",
+                "https://www.cumhuriyet.com.tr/rss",
                 "http://feeds.bbci.co.uk/turkce/rss.xml"
             };
 
