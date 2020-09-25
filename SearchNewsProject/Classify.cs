@@ -60,15 +60,17 @@ namespace SearchNewsProject
                 "atama","milli eğitim","meb","yök","tyt","ayt","mezun","öğrenci","öğretmen",
                 "matematik","fizik","kimya","biyoloji","sayısal","sözel","yds","burs",
                 "uzaktan eğitim","yks","lgs","ösym","öss","önlisans","lisans","harç","diploma",
-                "yekta saraç","eba","tercih","transkript","fakülte","tıp","sınıf","dönem","yaz tatil",
-                "aöl","kreş","anaokul","kyk"
+                "yekta saraç","eba","transkript","fakülte","sınıf","dönem","yaz tatil",
+                "aöl","kreş","anaokul","kyk","dgs"
             };
 
             string[] economyKeysTR = {
                 "ekonomi","döviz","dolar","lira","altın","euro","sterlin","albayrak","kripto",
-                "para","yatırım","konkordato","iflas","varank","sgk","imf","banka","hisse",
-                "bitcoin","petrol","piyasa","ihracat","ithalat","tarım","borç","fiyat","finans",
-                "kobi","kredi","borsa"
+                "yatırım","konkordato","iflas","varank","sgk","imf","banka","hisse",
+                "bitcoin","petrol","piyasa","ihracat","ithalat","tarım","finans",
+                "kobi","kredi","borsa", "berat albayrak", "ekonomi bakanı","bddk","borsa istanbul",
+                "swap"
+
             };
 
             string[] worldKeysTR ={
@@ -89,19 +91,19 @@ namespace SearchNewsProject
             string[] healthKeysTR = {
                 "sağlık","who","fahrettin koca","korona","aşı","grip","enfeksiyon","sancı",
                 "hekim","kene","vaka","kovid-19","covid","virüs","test","sağlı","bilim insa",
-                "tedavi","vitamin","bakan koca","salgın","bakteri","maske","ağrı","hasta","kanser",
+                "tedavi","vitamin","bakan koca","salgın","bakteri","maske","hasta","kanser",
                 "fitness","beslenme","kilo","diyet","dünya sağlık örgüt"
             };
 
             string[] techKeysTR = {
-                "teknoloji","samsung","apple","bilgisayar","televizyon","tablet","ios",
+                "teknoloji","samsung","apple","bilgisayar","ios",
                 "android","huawei","xiaomi","beta","youtube","oyun","playstation","ps4","ps5","xbox",
                 "nintendo","konsol","facebook","instagram","twitch","wi-fi","wps","lte","modem",
                 "epic","steam","playstore","appstore","google","vivo","oppo","internet","sosyal medya",
                 "bilişim","yazılım","cihaz","uygulama","hack","tiktok","online","offline","yapay zeka",
                 "ai","türk telekom","turkcell","5g","4g","twitter","whatsapp","telegram","bilim","sanayi",
                 "endüstri","microsoft","gpt-3","nasa","mars","zuckerberg","amazon","jeff bezos","elon musk",
-                "space","tesla","windows","linux","yapay gerçek","yahoo","bing"
+                "space","tesla","windows","linux","yapay gerçek","yahoo","bing","robot"
             };
 
             for (int i = 0; i < mainList.Count; i++)

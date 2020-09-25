@@ -403,14 +403,23 @@ namespace SearchNewsProject
                     string imgLink = null;
                     string content = null;
 
-                    if (i < 5)
+                    if(i == 1)
+                    {
+                        content = singleNode.SelectSingleNode("description").InnerText;
+                    }
+                    else if (i < 5)
                     {
                         int startIndex = 0, lastIndex = 0;
 
                         startIndex = singleNode.SelectSingleNode("description").InnerText.IndexOf("<br />") + 6;
                         lastIndex = singleNode.SelectSingleNode("description").InnerText.IndexOf("<a href");
 
-                        content = singleNode.SelectSingleNode("description").InnerText.Substring(startIndex, (lastIndex - startIndex));
+                        if(lastIndex - startIndex > 0)
+                        {
+                            content = singleNode.SelectSingleNode("description").InnerText.Substring(startIndex, (lastIndex - startIndex));
+                        }
+
+                        
                     }
                     else if (i >= 5 && i <= 8)
                     {
