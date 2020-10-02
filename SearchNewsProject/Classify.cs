@@ -164,11 +164,6 @@ namespace SearchNewsProject
                 {
                     counter++;
                 }
-                /*
-                if (content.Contains(keyWords[i]))
-                {
-                    counter++;
-                }*/
             }
 
             return counter;

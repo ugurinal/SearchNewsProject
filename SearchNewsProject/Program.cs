@@ -16,7 +16,7 @@ namespace SearchNewsProject
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Control.CheckForIllegalCrossThreadCalls = false;
+            Control.CheckForIllegalCrossThreadCalls = false;        // For cross thread
             Application.Run(new Form1());
         }
     }

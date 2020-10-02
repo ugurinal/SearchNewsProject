@@ -670,6 +670,7 @@ namespace SearchNewsProject
 
         private void addNewsToLayoutPanel(List<ListItem> listItems, int current)
         {
+            
             if (InvokeRequired)
             {
                 BeginInvoke((MethodInvoker)delegate ()
