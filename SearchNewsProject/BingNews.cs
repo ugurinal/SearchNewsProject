@@ -13,7 +13,7 @@ namespace SearchNewsProject
             public Dictionary<String, String> relevantHeaders;
         }
 
-        private const string accessKey = "819df7c3408d4eb7b15e7e2e9739c002";
+        private const string accessKey = "96c4e1a1370641b79391d87672795112";
         private const string uriBase = "https://api.cognitive.microsoft.com/bing/v7.0/news/search";
         private string searchQuery = null;
 
