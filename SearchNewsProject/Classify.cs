@@ -99,7 +99,7 @@ namespace SearchNewsProject
                 "teknoloji","samsung","apple","bilgisayar","ios",
                 "android","huawei","xiaomi","beta","youtube","oyun","playstation","ps4","ps5","xbox",
                 "nintendo","konsol","facebook","instagram","twitch","wi-fi","wps","lte","modem",
-                "epic","steam","playstore","appstore","google","vivo","oppo","internet","sosyal medya",
+                "epic","steam","playstore","appstore","google","vivo","oppo","internet",
                 "bilişim","yazılım","cihaz","uygulama","hack","tiktok","online","offline","yapay zeka",
                 "ai","türk telekom","turkcell","5g","4g","twitter","whatsapp","telegram","bilim","sanayi",
                 "endüstri","microsoft","gpt-3","nasa","mars","zuckerberg","amazon","jeff bezos","elon musk",
