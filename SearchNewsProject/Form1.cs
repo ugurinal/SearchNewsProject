@@ -403,7 +403,7 @@ namespace SearchNewsProject
                     string imgLink = null;
                     string content = null;
 
-                    if(i == 1)
+                    if (i == 1)
                     {
                         content = singleNode.SelectSingleNode("description").InnerText;
                     }
@@ -414,12 +414,10 @@ namespace SearchNewsProject
                         startIndex = singleNode.SelectSingleNode("description").InnerText.IndexOf("<br />") + 6;
                         lastIndex = singleNode.SelectSingleNode("description").InnerText.IndexOf("<a href");
 
-                        if(lastIndex - startIndex > 0)
+                        if (lastIndex - startIndex > 0)
                         {
                             content = singleNode.SelectSingleNode("description").InnerText.Substring(startIndex, (lastIndex - startIndex));
                         }
-
-                        
                     }
                     else if (i >= 5 && i <= 8)
                     {
@@ -670,7 +668,6 @@ namespace SearchNewsProject
 
         private void addNewsToLayoutPanel(List<ListItem> listItems, int current)
         {
-            
             if (InvokeRequired)
             {
                 BeginInvoke((MethodInvoker)delegate ()

@@ -70,7 +70,6 @@ namespace SearchNewsProject
                 "bitcoin","petrol","piyasa","ihracat","ithalat","tarım","finans",
                 "kobi","kredi","borsa", "berat albayrak", "ekonomi bakanı","bddk","borsa istanbul",
                 "swap"
-
             };
 
             string[] worldKeysTR ={
